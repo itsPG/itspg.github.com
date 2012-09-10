@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 程式作品 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/程式作品/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[作品] 多檔案index.html自動產生工具 v0.4]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/22/auto-anime-list-creator/"/>
+    <updated>2012-05-22T03:22:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/22/auto-anime-list-creator</id>
+    <content type="html"><![CDATA[<p>這是一個大三時曾經想完成的大專案，目標是整合多檔案動畫的同步，評分，分享comment，以及自動整理的功能。可惜因為野心與能力不成正比而失敗告吹，最近稍微摸了一下Python，發現用Python開發比用c＋＋開發愉快多了，所以決定有機會的話，找時間慢慢完成這個專案。目前先以我最迫切需要的功能為優先實作對象。</p>
+
+<!-- more -->
+
+
+<h2>更新記錄</h2>
+
+<ul>
+<li>v0.4 增加Log功能</li>
+<li>v0.3 增加顏色顯示，修改版面配置</li>
+<li>v0.2 增加search list功能</li>
+<li>v0.1 雛形</li>
+</ul>
+
+
+<h2>Gist:</h2>
+
+<p><a href="https://gist.github.com/2764080">編號：2764080</a></p>
+
+<h2>使用方法說明</h2>
+
+<p>...大致上就是修改 port url 以及資料夾</p>
+
+<p>我把需要改的地方都獨立出來放在檔案頂端了。</p>
+
+<p>真的有人想要拿回去用卻又不知道怎樣修改的話再留言問我吧。</p>
+]]></content>
+  </entry>
+  
+</feed>

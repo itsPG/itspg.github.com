@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 閒聊,軟體 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/閒聊-軟體/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[閒聊] 特價，只要NT30的WinRAR]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/buy-winrar-for-just-nt30/"/>
+    <updated>2012-05-21T03:05:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/buy-winrar-for-just-nt30</id>
+    <content type="html"><![CDATA[<p>在得知了這個消息後，馬上用paypal刷了七套來玩。</p>
+
+<p>潮爽的。</p>
+
+<!-- more -->
+
+
+<p>其實這次事件單純只是WinRAR合作（或是擁有的）的購物網站出現了價格轉換上的bug，WinRAR原價一套30美金，理論上轉換成台幣絕對不只台幣30塊錢這麼便宜，不過就在幾個月前的某天，程式轉換的部份爛掉啦，無論是用哪種幣值都是三十塊錢，也就是說，如果結帳時選擇幣值比台幣還要低的貨幣，一套WinRAR的價格可以壓到更低，在加上一次購買一定數量以上的WinRAR還會有另外一個特價，我記得我算到後來一次五套的價格甚至不到一百台票。</p>
+
+<p>從G+上得知道這個消息之後，馬上拿出paypal來刷，一開始我刷了好幾次25套的單子，無奈都被人工審核檔下來，我猜想多半RAR那邊也不覺得會有人一口氣買25套而不先寄信殺價的吧，總之我的訂單都在過幾分鐘人工審核後，被購物網站擋了下來。</p>
+
+<p>後來，我一次改刷一套，刷了兩次，都成功付款。WinRAR的購買流程是這樣的：填訂單，人工審核過了後給你付款連結，利用付款連結登入paypal付款，完成付款後收到WinRAR寄送的序號。在跑了這套流程兩次後，我拿到了兩組序號跟key，也就是說，我現在手上（總算）有兩套正版RAR啦！在測試兩次都成功後，我又嘗試性的刷了一筆5套的訂單，這次人工審核那邊有過，但寄過來的是一組五人授權的key，也就是說，五個人共用同一組key以及密碼。</p>
+
+<p>雖然這次多少有點貪小便宜的心態，不過這也算是一次不錯的線上付款購買軟體的經驗，也算是給RAR Lab的一個實質的肯定以及鼓勵吧。</p>
+]]></content>
+  </entry>
+  
+</feed>

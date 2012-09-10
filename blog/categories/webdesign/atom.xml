@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: WebDesign | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/webdesign/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] CSS3圓角 & CSS3動畫]]></title>
+    <link href="http://itsPG.github.com/blog/2012/03/04/css3/"/>
+    <updated>2012-03-04T21:22:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/03/04/css3</id>
+    <content type="html"><![CDATA[<p>這篇文章筆記一下CSS3的圓角跟CSS3動畫的語法，順便推薦一個很好用的CSS按鈕產生工具</p>
+
+<!-- more -->
+
+
+<h1>CSS按鈕產生工具</h1>
+
+<p><a href="http://www.colorzilla.com/gradient-editor/">Ultimate CSS Gradient Generator</a>
+拿來處理CSS的漸層再方便不過了</p>
+
+<h1>CSS3 圓角</h1>
+
+<h2>在Chrome, Safari下：</h2>
+
+<p>統一設定：</p>
+
+<pre><code>-webkit-border-radius:10px;
+</code></pre>
+
+<p>分開設定：</p>
+
+<pre><code>-webkit-border-top-left-radius:15px; 
+-webkit-border-top-right-radius:15px;
+-webkit-border-bottom-right-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+</code></pre>
+
+<h2>在Firefox下：</h2>
+
+<p>統一設定：</p>
+
+<pre><code>-moz-border-radius:10px;
+</code></pre>
+
+<p>分開設定：</p>
+
+<pre><code>-moz-border-top-left-radius:15px;
+-moz-border-top-right-radius:15px;
+-moz-border-bottom-right-radius:10px;
+-moz-border-bottom-left-radius:10px;
+</code></pre>
+
+<h1>CSS3 淡出動畫</h1>
+
+<p>參考資料：<a href="http://www.w3schools.com/css3/css3_animations.asp">w3schools.com</a>
+懶人包1：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;/</span><span class="nt">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">pre</span><span class="o">&gt;&lt;</span><span class="nt">code</span><span class="o">&gt;</span><span class="nf">#navbar-iframe</span><span class="nd">:hover</span><span class="p">{</span>
+</span><span class='line'>    <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">;</span> <span class="c">/* Other */</span>
+</span><span class='line'>    <span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">;</span> <span class="c">/* Safari, Chrome and Firefox */</span>
+</span><span class='line'>    <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">navbar</span> <span class="m">1s</span><span class="p">;</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>    <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">navbar</span> <span class="m">1s</span><span class="p">;</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@-moz-keyframes</span> <span class="nt">navbar</span> <span class="p">{</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>    <span class="nt">from</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>    <span class="nt">to</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@-webkit-keyframes</span> <span class="nt">navbar</span> <span class="p">{</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'>    <span class="nt">from</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>    <span class="nt">to</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nt">code</span><span class="o">&gt;&lt;/</span><span class="nt">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>懶人包2:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>   <span class="nt">css</span> <span class="nt">test</span><span class="o">&lt;/</span><span class="nt">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">pre</span><span class="o">&gt;&lt;</span><span class="nt">code</span><span class="o">&gt;</span><span class="nt">div</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">width</span><span class="o">:</span><span class="m">100px</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">height</span><span class="o">:</span><span class="m">100px</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">position</span><span class="o">:</span><span class="k">relative</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>    <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@keyframes</span> <span class="nt">myfirst</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@-moz-keyframes</span> <span class="nt">myfirst</span> <span class="c">/* Firefox */</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@-webkit-keyframes</span> <span class="nt">myfirst</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nt">code</span><span class="o">&gt;&lt;/</span><span class="nt">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

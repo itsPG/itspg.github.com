@@ -1,0 +1,1314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[itsPG.org]]></title>
+  <link href="http://itsPG.github.com/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FreeBSD 9.0 快速安裝教學 （上）]]></title>
+    <link href="http://itsPG.github.com/blog/2012/08/24/freebsd9-dot-0-install-note/"/>
+    <updated>2012-08-24T23:27:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/08/24/freebsd9-dot-0-install-note</id>
+    <content type="html"><![CDATA[<p>之前安裝到一半的機器，一邊安裝軟體，一邊弄教學。結果機器堪用之後就懶得繼續裝了（遮臉）。</p>
+
+<p>在這邊分享一下我做的筆記</p>
+
+<!-- more -->
+
+
+<h2>1.先做FreeBSD的安全更新</h2>
+
+<p>freebsd-update fetch
+freebsd-update install</p>
+
+<h2>2.編輯<code>/etc/makefile.conf</code>，加入以下設定</h2>
+
+<pre><code>SUPHOST= cvsup.tw.freebsd.org
+SUP_UPDATE= yes
+SUP= /usr/bin/csup
+SUPFLAGS= -g -L 2
+SUPFILE= /usr/share/examples/cvsup/stable-supfile
+PORTSSUPFILE= /usr/share/examples/cvsup/ports-supfile
+</code></pre>
+
+<h2>3.更新ports tree</h2>
+
+<pre><code>cd /usr/ports
+make update
+</code></pre>
+
+<h2>4.編輯<code>/etc/rc.conf</code>，加入</h2>
+
+<pre><code>ntpdate_enable="YES"
+ntpdate_flags="clock.stdtime.gov.tw"
+sshd_enable="YES"
+usbd_enable="YES"
+smbftpd_enable="YES"
+smbftpd_flags="-D"
+mysql_enable="YES"
+apache22_enable="YES"
+snmpd_enable="YES"
+samba_enable="YES"
+rsyncd_enable="YES"
+named_enable="YES"
+</code></pre>
+
+<h2>5.安裝wget</h2>
+
+<pre><code>cd /usr/ports/ftp/wget
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>6.安裝smbftpd</h2>
+
+<pre><code>cd /tmp
+wget "http://twbsd.org/download/download.php?file=smbftpd/smbftpd-2.4.tar.gz"
+tar -zxvf download.php\?file=smbftpd%2Fsmbftpd-2.4.tar.gz
+cd smbftpd
+./configure
+make
+make install
+</code></pre>
+
+<h2>7.安裝Apache22</h2>
+
+<pre><code>cd /usr/ports/www/apache22
+make config-recursive
+make install clean
+</code></pre>
+
+<p>接下來改一下apache設定值
+<code>ee /usr/local/etc/apache22/httpd.conf</code></p>
+
+<h3>7.1 找到DirectoryIndex 加入對.php首頁的支援</h3>
+
+<p>DirectoryIndex index.php index.htm index.html</p>
+
+<h3>7.2 找到# Include etc/apache22/extra/httpd-userdir.conf</h3>
+
+<p>將前面的#號消掉,啟用家目錄功能</p>
+
+<h3>7.3 在檔案後面加上下面這兩行，啟動對PHP格式的支援</h3>
+
+<p>AddType application/x-httpd-php .php
+AddType application/x-httpd-php-source .phps</p>
+
+<h2>8.安裝PHP</h2>
+
+<pre><code>cd /usr/ports/lang/php5
+make config-recursive
+make install clean
+</code></pre>
+
+<p>此時必須勾選&#8221;Build Apache module&#8221;
+否則Apache會不認得.php副檔名</p>
+
+<h2>9.安裝PHP5外掛 (選擇性)</h2>
+
+<pre><code>cd /usr/ports/lang/php5-extensions
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>10.安裝MySQL server (會順便把client一起裝起來)</h2>
+
+<pre><code>cd /usr/ports/databases/mysql55-server/
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>11.安裝phpMyAdmin</h2>
+
+<pre><code>cd /usr/ports/databases/phpmyadmin
+make install clean
+</code></pre>
+
+<h2>12.設定MySQL環境</h2>
+
+<h3>12.1. 啟動server</h3>
+
+<p>/usr/local/etc/rc.d/mysql-server restart</p>
+
+<h3>12.2. 連上mysql資料庫,更新root密碼,</h3>
+
+<p>/usr/local/bin/mysql mysql
+UPDATE user SET password=password(’123456789′) where user=’root’;</p>
+
+<h3>12.3. 重新啟動server</h3>
+
+<p>/usr/local/etc/rc.d/mysql-server start</p>
+
+<h3>12.4. 修改phpMyAdmin設定檔 – 伺服器部份</h3>
+
+<p>ee /usr/local/etc/apache22/httpd.conf
+增加 Alias /phpmyadmin/ “/usr/local/www/phpMyAdmin/&#8221;</p>
+
+<h3>12.5.修改phpMyAdmin設定檔 – 程式本身部份</h3>
+
+<p>cd /usr/local/www/phpMyAdmin
+cp ./libraries/config.default.php ./config.inc.php
+ee ./config.inc.php
+把 $cfg[&#8216;Servers&#8217;][$i][&#8216;auth_type&#8217;] = ‘cookie’ ;
+改成 $cfg[&#8216;Servers&#8217;][$i][&#8216;auth_type&#8217;] = ‘http’ ;</p>
+
+<h2>13. 安裝vim (需要較多時間)</h2>
+
+<p>第一次編譯到一半會失敗，估計是套件相依性沒設定好，
+編譯第二次就會過了</p>
+
+<pre><code>cd /usr/ports/editors/vim
+make config-recursive
+make install clean
+make install clean
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[程設] Use http.cookiejar and urllib.request to POST login http webpage in Python 3.2]]></title>
+    <link href="http://itsPG.github.com/blog/2012/08/13/use-python3-to-login-http-web/"/>
+    <updated>2012-08-13T04:25:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/08/13/use-python3-to-login-http-web</id>
+    <content type="html"><![CDATA[<p>My English is very poor, however I can&#8217;t find any useful information except the official manual when I googled this topic, so I write it down in English, hope this blog could help more people.</p>
+
+<p>Keyword: cookielib http.cookiejar urllib.request login http webpagge Python 3.2
+用python 3.2登入網頁 POST</p>
+
+<!-- more -->
+
+
+<p>I take this website for example : <a href="http://share.dmhy.org/user/login">share.dmhy.org</a></p>
+
+<p>In this website, you need to type your account, password, and a captcha code to login.</p>
+
+<h2>Step 1.  Include the lib, define some var</h2>
+
+<pre><code>import http.cookiejar, urllib.request
+import re, os
+username = "PG@example.com"
+password = "123456"
+captcha = ""
+</code></pre>
+
+<h2>Step 2. Create the opener, which is using cookiejar for processing cookies.</h2>
+
+<pre><code>cj = http.cookiejar.MozillaCookieJar()
+opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+</code></pre>
+
+<h2>Step 3. Open the login page through opener, get captcha through opener, and save the captcha as a pic.</h2>
+
+<pre><code>first_page = opener.open("http://share.dmhy.org/user/login").read().decode("utf-8")
+m = re.search("common\/generate\-captcha\?code=([0-9]+)", first_page)
+captcha_pic = opener.open("http://share.dmhy.org/common/generate-captcha?code=" + m.group(1)).read()
+open("PG.jpg", 'wb').write(captcha_pic)
+</code></pre>
+
+<h2>Step 4. Ask user for the captcha</h2>
+
+<pre><code>os.system("start PG.jpg");
+captcha_code = input("Captcha : ");
+</code></pre>
+
+<h2>Step 5. send POST request</h2>
+
+<pre><code>login_data = urllib.parse.urlencode    \
+({                               \
+    'email' : username,       \
+    'password' : password,      \
+    'login_node' : '0',        \
+    'cookietime' : '315360000',         \
+    'captcha_code' : captcha_code
+}).encode("utf-8")
+url = urllib.request.Request("http://share.dmhy.org/user/login", login_data)
+url.add_header("User-Agent","Chrome/18.1.2.3")
+</code></pre>
+
+<p>Note that User-Agent is optional.</p>
+
+<h2>Step 6. Get responsed data, show cookies, and save cookies as &#8220;cookie.txt&#8221;</h2>
+
+<pre><code>ResponseData = opener.open(url).read().decode("utf8", 'ignore')
+print(ResponseData)
+for ind, cookie in enumerate(cj):
+    print("%d - %s" %(ind, cookie))
+cj.save("cookie.txt")
+</code></pre>
+
+<h2>Step 7. Next time when we need to login, you just need to load &#8220;cookie.txt&#8221;</h2>
+
+<pre><code>cj = http.cookiejar.MozillaCookieJar()
+cj.load("cookie.txt")
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[作品] 多檔案index.html自動產生工具 v0.4]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/22/auto-anime-list-creator/"/>
+    <updated>2012-05-22T03:22:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/22/auto-anime-list-creator</id>
+    <content type="html"><![CDATA[<p>這是一個大三時曾經想完成的大專案，目標是整合多檔案動畫的同步，評分，分享comment，以及自動整理的功能。可惜因為野心與能力不成正比而失敗告吹，最近稍微摸了一下Python，發現用Python開發比用c＋＋開發愉快多了，所以決定有機會的話，找時間慢慢完成這個專案。目前先以我最迫切需要的功能為優先實作對象。</p>
+
+<!-- more -->
+
+
+<h2>更新記錄</h2>
+
+<ul>
+<li>v0.4 增加Log功能</li>
+<li>v0.3 增加顏色顯示，修改版面配置</li>
+<li>v0.2 增加search list功能</li>
+<li>v0.1 雛形</li>
+</ul>
+
+
+<h2>Gist:</h2>
+
+<p><a href="https://gist.github.com/2764080">編號：2764080</a></p>
+
+<h2>使用方法說明</h2>
+
+<p>&#8230;大致上就是修改 port url 以及資料夾</p>
+
+<p>我把需要改的地方都獨立出來放在檔案頂端了。</p>
+
+<p>真的有人想要拿回去用卻又不知道怎樣修改的話再留言問我吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[程設] Python 3.2 在windows下的UTF8解決方案，解決can't decode以及亂碼的問題]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/python-utf8-fix-for-windows-terminal/"/>
+    <updated>2012-05-21T05:08:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/python-utf8-fix-for-windows-terminal</id>
+    <content type="html"><![CDATA[<p>以前用Ruby操作windows上的資料夾的時候，就有出現過類似的問題，google了老半天找不到堪用的解法，原先以為是Ruby在windows上的lib不夠成熟，久試未果，只好暫時放棄Ruby。</p>
+
+<p>沒想到，最近開始用Python，發覺也有類似的問題，後來在stackoverflow上，找到了問題的所在，總歸是Windows的問題，但幸好回答問題的人有附上他對windows terminal的hack，用了這個解法之後，可以讓Python在Windows下正確無誤顯示utf8字元。</p>
+
+<!-- more -->
+
+
+<p>以下引用自StackOverflow的<a href="http://stackoverflow.com/questions/3789924/python-os-walk-and-japanese-filename-crash">這篇回答</a></p>
+
+<blockquote><p>It seems like all answers so far are from Unix people who assume the Windows console is like a Unix terminal, which it is not.</p>
+
+<p>The problem is that you can&#8217;t write Unicode output to the Windows console using the normal underlying file I/O functions. The Windows API WriteConsole needs to be used. Python should probably be doing this transparently, but it isn&#8217;t.</p>
+
+<p>There&#8217;s a different problem if you redirect the output to a file: Windows text files are historically in the ANSI codepage, not Unicode. You can fairly safely write UTF-8 to text files in Windows these days, but Python doesn&#8217;t do that by default.</p>
+
+<p>I think it should do these things, but here&#8217;s some code to make it happen. You don&#8217;t have to worry about the details if you don&#8217;t want to; just call ConsoleFile.wrap_standard_handles(). You do need PyWin installed to get access to the necessary APIs.</p></blockquote>
+
+<p>這篇文章中也附上了他的解法，把它貼到程式裡面，並執行<code>ConsoleFile.wrap_standard_handles()</code>，就會幫你修正好摟。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">win32api</span><span class="o">,</span> <span class="nn">win32console</span><span class="o">,</span> <span class="nn">pywintypes</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">change_file_encoding</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">encoding</span><span class="p">):</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">TextIOWrapper is missing a way to change the file encoding, so we have to</span>
+</span><span class='line'><span class="sd">do it by creating a new one.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">errors</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">errors</span>
+</span><span class='line'><span class="n">line_buffering</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">line_buffering</span>
+</span><span class='line'><span class="c"># f.newlines is not the same as the newline parameter to TextIOWrapper.</span>
+</span><span class='line'><span class="c"># newlines = f.newlines</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">buf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># TextIOWrapper defaults newline to \r\n on Windows, even though the underlying</span>
+</span><span class='line'><span class="c"># file object is already doing that for us.  We need to explicitly say &quot;\n&quot; to</span>
+</span><span class='line'><span class="c"># make sure we don&#39;t output \r\r\n; this is the same as the internal function</span>
+</span><span class='line'><span class="c"># create_stdio.</span>
+</span><span class='line'><span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">line_buffering</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ConsoleFile</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">FileNotConsole</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">handle</span> <span class="o">=</span> <span class="n">win32api</span><span class="o">.</span><span class="n">GetStdHandle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">win32console</span><span class="o">.</span><span class="n">PyConsoleScreenBufferType</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">GetConsoleMode</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">except</span> <span class="n">pywintypes</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">WriteConsole</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">isatty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">True</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@staticmethod</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">wrap_standard_handles</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="c"># There seems to be no binding for _get_osfhandle.</span>
+</span><span class='line'>            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">ConsoleFile</span><span class="p">(</span><span class="n">win32api</span><span class="o">.</span><span class="n">STD_OUTPUT_HANDLE</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">except</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">change_file_encoding</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">ConsoleFile</span><span class="p">(</span><span class="n">win32api</span><span class="o">.</span><span class="n">STD_ERROR_HANDLE</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">except</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">change_file_encoding</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ConsoleFile</span><span class="o">.</span><span class="n">wrap_standard_handles</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要注意的是，使用這個hack之前，必須先裝<a href="http://stackoverflow.com/questions/3789924/python-os-walk-and-japanese-filename-crash">pywin32</a>，在此篇文章撰寫時，最新版本是Build 217，請依照你的windows版本以及Python版本下載合適的檔案，我第一次安裝到一半卡住，最後才發現原來我以前在裝Python的時候，不小心在64位元的win7上裝了32位元版的Python</p>
+
+<p>另，這段hack的開頭的<code>import os, sys, io, win32api, win32console, pywintypes</code>跟結束的<code>ConsoleFile.wrap_standard_handles()</code>，我建議可以把它包進判斷作業系統的判斷式內，有助於我們撰寫跨平台的Python程式</p>
+
+<pre><code>if sys.platform == "win32":
+    import os, sys, io, win32api, win32console, pywintypes
+</code></pre>
+
+<p>以及</p>
+
+<pre><code>if sys.platform == "win32":
+    ConsoleFile.wrap_standard_handles()
+</code></pre>
+
+<p>以上，Enjoy your Python programming :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[開箱] Alter 夏綠蒂 運動夾克ver （シャルロット・デュノア　ジャージVer.）]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/alter-charlotte-dunois/"/>
+    <updated>2012-05-21T04:38:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/alter-charlotte-dunois</id>
+    <content type="html"><![CDATA[<p><img src="http://farm8.staticflickr.com/7233/7236404376_19378b54d5_z.jpg" alt="" /></p>
+
+<p>當初就說過只要Alter出法國或者是出艾露露的Figure我必衝，去年秋天的時候Alter放出原形後，我立刻訂了一隻，經過漫長的等待後（似乎是延期過），日本總算在四月發售，並在四月底左右到我手中。</p>
+
+<p>這是我這輩子第一隻Figure，對我來說頗有紀念價值，以下附上不專業開箱，有興趣的話可以點進來看看。</p>
+
+<!-- more -->
+
+
+<p>Alter官網連結：</p>
+
+<p><a href="http://www.alter-web.jp/figure/12/03_2/index.html">シャルロット・デュノア　ジャージVer.</a></p>
+
+<p>開箱</p>
+
+<p><img src="http://farm8.staticflickr.com/7084/7236300230_3775a18ca6_z.jpg" alt="" />
+<img src="http://farm8.staticflickr.com/7218/7236299764_b410113f24_z.jpg" alt="" />
+<img src="http://farm9.staticflickr.com/8022/7236299518_8177bf2440_z.jpg" alt="" /></p>
+
+<p>實際擺放情形</p>
+
+<p><img src="http://farm8.staticflickr.com/7093/7236298670_393b8a9bd7_z.jpg" alt="" /></p>
+
+<p>以下附上一張目前為止我最喜歡的同人圖</p>
+
+<p><img src="http://farm6.staticflickr.com/5036/7236299264_87d04c1e6a_z.jpg" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[網管] 利用USB安裝FreeBSD / 製作FreeBSD的USB安裝碟]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/install-freebsd-by-usb/"/>
+    <updated>2012-05-21T03:56:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/install-freebsd-by-usb</id>
+    <content type="html"><![CDATA[<p>最近資訊社的機器有一台要重灌，想說除了練習FreeBSD的安裝之外，順便來試試看用USB安裝FreeBSD順不順，沒想到，使用 <a href="http://blog.tenyi.com/2011/07/freebsdusb.html">UNetbootin</a>解壓縮安裝檔到USB隨身碟上，居然有一萬七千多個檔，在我老舊的USB隨身碟上，居然要花兩個多小時製作。</p>
+
+<p>Google了一下後，發現原來FreeBSD有提供記憶體img的安裝方式，將記憶體內容包到img裡面，安裝的時候直接複製到記憶體中，既可以當LiveCD用，也可以大幅提昇安裝USB碟的製作速度，（別忘了，隨身碟對小檔讀寫的能力都不是很理想，更何況我用的是好幾年前的便宜貨）</p>
+
+<!-- more -->
+
+
+<p>在Windows上，有一套軟體叫做 Image Writer for Windows，可以直接幫你從img檔案製作USB安裝碟。</p>
+
+<p>在Linux / Unix / Mac上，也是有方法可以弄，不過這些方法我是從<a href="http://blog.tenyi.com/2011/07/freebsdusb.html">這篇blog</a>上看到的，以下轉貼僅供參考，我並沒有實際的操作過。</p>
+
+<blockquote><p>先unmount隨身碟<br/><br/>
+$ sudo umount /dev/sdc<br/>
+<strong>Linux</strong>原本就可寫入MBR，所以只要：<br/>
+$ sudo umount /dev/sdc<br/>
+$ sudo dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/sdc bs=64k<br/>
+<strong>Mac</strong>稍微麻煩一點，因為磁碟工具程式似乎不支援不認得的File System：<br/>
+要知道mount到哪兒，可以在Terminal（終端機）看  <br/>
+$ sudo mount  <br/>
+若己經有檔案系統，可先別急著在Finder上按退出，因為會連device都退出 （這裏假設是 /dev/disk1） <br/>
+$ sudo diskutil umount /dev/disk1  <br/>
+或是  <br/>
+$ sudo diskutil umount [你USB碟的Label名稱]  <br/>
+接下來  <br/>
+$ sudo dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/disk1 bs=64k  <br/></p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[閒聊] 特價，只要NT30的WinRAR]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/buy-winrar-for-just-nt30/"/>
+    <updated>2012-05-21T03:05:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/buy-winrar-for-just-nt30</id>
+    <content type="html"><![CDATA[<p>在得知了這個消息後，馬上用paypal刷了七套來玩。</p>
+
+<p>潮爽的。</p>
+
+<!-- more -->
+
+
+<p>其實這次事件單純只是WinRAR合作（或是擁有的）的購物網站出現了價格轉換上的bug，WinRAR原價一套30美金，理論上轉換成台幣絕對不只台幣30塊錢這麼便宜，不過就在幾個月前的某天，程式轉換的部份爛掉啦，無論是用哪種幣值都是三十塊錢，也就是說，如果結帳時選擇幣值比台幣還要低的貨幣，一套WinRAR的價格可以壓到更低，在加上一次購買一定數量以上的WinRAR還會有另外一個特價，我記得我算到後來一次五套的價格甚至不到一百台票。</p>
+
+<p>從G+上得知道這個消息之後，馬上拿出paypal來刷，一開始我刷了好幾次25套的單子，無奈都被人工審核檔下來，我猜想多半RAR那邊也不覺得會有人一口氣買25套而不先寄信殺價的吧，總之我的訂單都在過幾分鐘人工審核後，被購物網站擋了下來。</p>
+
+<p>後來，我一次改刷一套，刷了兩次，都成功付款。WinRAR的購買流程是這樣的：填訂單，人工審核過了後給你付款連結，利用付款連結登入paypal付款，完成付款後收到WinRAR寄送的序號。在跑了這套流程兩次後，我拿到了兩組序號跟key，也就是說，我現在手上（總算）有兩套正版RAR啦！在測試兩次都成功後，我又嘗試性的刷了一筆5套的訂單，這次人工審核那邊有過，但寄過來的是一組五人授權的key，也就是說，五個人共用同一組key以及密碼。</p>
+
+<p>雖然這次多少有點貪小便宜的心態，不過這也算是一次不錯的線上付款購買軟體的經驗，也算是給RAR Lab的一個實質的肯定以及鼓勵吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[Mac ] 讓Mac筆電闔上螢幕的時候不進入待命模式]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/disable-lid-sleep-on-mac/"/>
+    <updated>2012-05-21T03:03:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/disable-lid-sleep-on-mac</id>
+    <content type="html"><![CDATA[<p>每次我的MBA一關上螢幕，下次重開的時候都要重抓wifi實在是有點麻煩，尤其是我的學校（交大）上課時人多的時候校內無線網路ip會不夠分，需要等待個約莫五分鐘才能排到可用的ip，導致每次想要離開座位的時候都沒辦法完全闔上筆電，實在是不太方便，從mac的選單裡面找，卻又找不到ok的修改方式。</p>
+
+<p>還好有找到軟體可以解決關上螢幕電腦就會自動待命的問題。</p>
+
+<!-- more -->
+
+
+<p>軟體名稱：InsomniaX</p>
+
+<p>目前最新版本： 2.0.1</p>
+
+<p>下載位址：<a href="http://semaja2.net/archives/221">點我</a></p>
+
+<p>在這個版本中，選擇『只有在插上電源時才關閉待命功能』的功能以及他的類似功能是壞的，也就是說，所有的設定都必須自己手動調整，關閉待命之後，記得在有需要的時候調回來，要不然習慣性的關閉螢幕當做待命，卻忘記自己有開這套程式，那就悲劇了。</p>
+
+<p>不過，<span style='color:red;'>即使打開這個程式，闔上螢幕的時候也會自動關閉顯示器電源</span>，所以不用每次闔上蓋子的時候都要手動關閉顯示器啦。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[Mac] 關於Mac的螢幕截圖 (printscreen)]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/printscreen-in-mac/"/>
+    <updated>2012-05-21T02:47:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/printscreen-in-mac</id>
+    <content type="html"><![CDATA[<p>這篇筆記了一下怎樣在Mac裡面截圖，以及在mac bootcamp的windows下，怎樣擷取windows下的圖片</p>
+
+<!-- more -->
+
+
+<h1>1. On Mac</h1>
+
+<h2>Shift + Command + 3 </h2>
+
+<p>擷取整個畫面</p>
+
+<h2>Shift + Command + 4</h2>
+
+<p>利用滑鼠圈選擷取範圍</p>
+
+<h2>Shift + Command + Space + 4</h2>
+
+<p>擷取指定視窗</p>
+
+<h1>2. On Windows</h1>
+
+<h2>Fn + Shift + F11</h2>
+
+<p>擷取整個營幕畫面(等同於printscreen)</p>
+
+<h2>Fn + Shift + Alt + F11</h2>
+
+<p>可以擷取正在使用中的視窗畫面(等同於Alt + printscreen)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在Mac Book AIR 11mid 上，製作Lion安裝隨身碟 / MBA 還原隨身碟]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/10/lion-recovery-usb-from-mba11/"/>
+    <updated>2012-05-10T15:04:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/10/lion-recovery-usb-from-mba11</id>
+    <content type="html"><![CDATA[<p>這版的MBA取消了以往慣例上會附贈的精美還原隨身碟，改用復原磁區上的系統自動從網站上抓取安裝檔進行重灌，所以每次想要重灌Mac的時候，都要花一兩個小時下載將近4G的安裝檔，對於網路速度不快的人來說無疑是個惡夢。</p>
+
+<p>這篇教學主要是教你怎樣利用MBA復原磁區上的程式抓取安裝檔，以及另外備份安裝檔，以後重灌的時候就不用每次都要另外抓安裝程式。</p>
+
+<!-- more -->
+
+
+<p>這整篇的原理是</p>
+
+<h2>在Lion下，打開安裝程式，把Lion安裝到另外一個目標硬碟，在下載完安裝用映像檔後，實際安裝之前，將安裝程式中斷
+</h2>
+
+
+<p>由於Lion安裝完後就會把安裝檔刪除，所以我們只能用這個方法取得刪除前的安裝程式。</p>
+
+<h2>step 1.</h2>
+
+<p>首先，請先準備一個可以安裝Lion的隨身硬碟（或是隨身碟），容量必須能夠裝下Lion的安裝檔以及Lion本身，所以容量最好有16G以上。</p>
+
+<h2>step 2.</h2>
+
+<p>打開工具程式裡面的磁碟管理工具，將隨身碟格式化成mac的檔案系統
+<img src="http://farm8.staticflickr.com/7228/7170064012_622ebd55cf_z.jpg" alt="" /></p>
+
+<h2>step 3.</h2>
+
+<p>打開終端機，輸入</p>
+
+<pre><code>diskutil mount readOnly /dev/disk0s3
+hdiutil attach "/Volumes/Recovery HD/com.apple.recovery.boot/BaseSystem.dmg"
+</code></pre>
+
+<p>第一個指令是把隱藏磁區掛載起來，第二個指令是把隱藏的復原程式dmg檔掛載起來</p>
+
+<p><img src="http://farm8.staticflickr.com/7087/7170063888_0a0e0701fa_z.jpg" alt="" /></p>
+
+<h2>step 4.</h2>
+
+<p>在Finder裡面打開<code>Mac OS X Base System</code>裡面的Lion安裝程式，在安裝選擇磁碟的時候，<strong>記得將安裝目標設定為隨身硬碟或是隨身碟</strong>，如此才能將安裝程式下載到隨身碟上。
+<img src="http://farm6.staticflickr.com/5279/7170064158_48a53ca45b_z.jpg" alt="" />
+<img src="http://farm9.staticflickr.com/8001/7170063678_68f4af3cbe_z.jpg" alt="" />
+<img src="http://farm8.staticflickr.com/7228/7170063752_02dc765183_z.jpg" alt="" /></p>
+
+<p>接下來會開始下載安裝Lion的映像檔。</p>
+
+<h2>step 5.</h2>
+
+<p>下載倒數到零之後，mac會花一段時間驗證下載的檔案是否正確，驗證完之後會進入自動重開機的倒數。在倒數的時候，在畫面上點一下可以暫停讀秒，改為手動重新開機，如果怕來不及的話，<strong>可以隨便先打開一個關閉之前會確認是否要存檔的程式</strong>（例如說，打開word，隨便打一些字，如此在系統自動重開機之前就會問你要不要存檔），如此可以中斷自動重新開機的流程。
+<img src="http://farm8.staticflickr.com/7211/7170064456_0bb7eab226_z.jpg" alt="" />
+<img src="http://farm8.staticflickr.com/7211/7170064720_dd749bdc56_z.jpg" alt="" />
+<strong>在finder中，卸載磁碟機後把隨身碟拔除，然後按下<code>cmd+q</code>離開安裝程式</strong></p>
+
+<p>許多人會在這步驟失敗，是因為忘記先把隨身碟拔起來就急著離開Lion的安裝程式。</p>
+
+<h2>step 6.</h2>
+
+<p>重新插上隨身碟，裡面的<code>Mac OS X Install Data</code>就是我們要的東西摟</p>
+
+<p><img src="http://farm9.staticflickr.com/8001/7170063570_c5a74135f6_z.jpg" alt="" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[開箱] ASUS XONAR U3]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/04/xonar-u3/"/>
+    <updated>2012-05-04T03:56:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/04/xonar-u3</id>
+    <content type="html"><![CDATA[<p><img src="http://farm8.staticflickr.com/7087/7170288040_f83b91f5d5_b.jpg" alt="" /></p>
+
+<!-- more -->
+
+
+<p>實測的結果，有比內建的音效稍微好一點，聲音較為乾淨，銳利，唯一的缺點就是不裝驅動的話，聲音會大聲到不行。</p>
+
+<p>以售價1500來說，我覺得還算是不錯的選擇，不過話說回來，兩千塊錢以下的價位還有什麼音效卡可以考慮呢Orz。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[開箱] Amazon Kindle Fire]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/04/kindle-fire/"/>
+    <updated>2012-05-04T03:46:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/04/kindle-fire</id>
+    <content type="html"><![CDATA[<p>雖說是開箱，不過這台算是實驗室財產，只是現在歸我管而已。</p>
+
+<p><img src="http://farm9.staticflickr.com/8161/7156954798_3e913022c6_b.jpg" alt="" /></p>
+
+<p>我在這篇開箱文裡面整理了一下使用Kindle Fire一兩個月的心得，希望對Kindle Fire有興趣的人可以謹慎的考慮一下這台玩具值不值得你花錢購買。</p>
+
+<!-- more -->
+
+
+<p>以下是最近這一兩個月的使用心得總結</p>
+
+<h1>優</h1>
+
+<h2>1.價格</h2>
+
+<p>200美金有找，極度接近成本價格，甚至比成本價還低的價格，顯然是Amazon搶攻市場的手段之一，但很可惜的因為台灣沒有代理商代理，水貨的價格約略落在台幣八千塊錢左右，直接比原始價格貴了33%。</p>
+
+<h2>2.順暢的桌面環境</h2>
+
+<p>Kindle Fire在我用過的好幾台平板裡面，是桌面環境最順暢的一台，實測上，無論是閱讀電子書還是上網，都有不錯的使用者體驗。</p>
+
+<h2>3.大小</h2>
+
+<p>這點算是優點也算是缺點，以電子書來說這螢幕大小顯得過小，但實際閱讀上並沒有很明顯的受拘束的不便感，有點出乎我的意料之外，而且小螢幕在攜帶性上的確有他的優勢在，在這裡就勉強算上一個優點吧。</p>
+
+<h1>缺</h1>
+
+<h2>1.應用程式過少</h2>
+
+<p>想在Kindle Fire上面安裝app，還得在amazon自家的market上面尋找才行，除了縱錯複雜且不直觀的頁面跳轉之外，最扯的是，自家的market還規定你要填寫one-click的資料（也就是說，要你把你的信用卡卡號丟給他啦），才有辦法下載<strong>免費</strong>的app。 簡而言之，你可以把他當作一台沒有app的平板。（除非你要用非官方管道把app強塞到機器裡面，不過這邊就不討論這種情形了）</p>
+
+<h2>2.尷尬的螢幕大小以及價格</h2>
+
+<p>以Kindle Fire的大小，閱讀電子書是綽綽有餘沒錯，但拿來看漫畫就不行了。</p>
+
+<p>價格是水貨的原罪，八千塊買一台軟硬體都大幅度閹割的平板，cp值太低。</p>
+
+<h2>3.重量超重</h2>
+
+<p>拿在手上真的很像是拿一個磚塊，其他各家的平板雖然都比Kindle Fire稍重一些，但螢幕大小都是Kindle Fire的好幾倍，就比例上來計算，Kindle Fire重的像是上一個世代的產物。以大小接近的Galaxy Note來比較，Galaxy Note的重量不到Kindle Fire的一半，看來這可能是用料跟價格上個妥協後的結果。</p>
+
+<h1>結論</h1>
+
+<p>Kindle Fire的定位大概就跟華碩的三合一平板一樣的尷尬。，以平板來說，差4500塊就能買到無論是大小或者是功能都比Kindle Fire好上太多的iPad2。以手持上網裝置來說，Kindle Fire除了螢幕比手機略大之外，我找不到任何可以替Kindle Fire扳回一城的優勢，重量更是致命傷，接近一瓶礦泉水的重量，拿在手上的不適感相當突兀之外（os：螢幕這麼小怎麼還這麼重），攜帶上也差不多等於多帶一瓶礦泉水在身上。</p>
+
+<p>總結：這是一個<strong>完全失敗</strong>的玩具，看的出這是Amazon實驗性質濃厚的產品。對一般人來說，拿八千塊買到的平板，只是一台勉強能夠看電子書以及上網的啦機，我仔細思考，但我仍然找不出任何可以屈就於Kindle Fire的理由。</p>
+
+<p>老實說Amazon剛放出Kindle Fire的消息的時候，我還相當期待。那是一個平板價格一萬五起跳的時代，如果在六千元這價位附近能買到一台不錯的平板，肯定能夠大賣，但等Kindle Fire實際出來後，除了螢幕大小遠遠不如預期外，高度客製的封閉環境以及iPad系列的降價，直接將Kindle Fire變成了平板界活生生的笑柄。</p>
+
+<p>題外話，不知何時才有能夠與iPad一戰的平板出現，在堪用的平價王者出現之前，市場大概還是只能一面倒的屈服於iPad的淫威之下，不過慶幸的是，蘋果並沒有因為主宰著平板市場而停下進步的角度，這點算是唯一值得高興的事情了吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 移除amazon kindle的DRM保護 （How to remove DRM from kindle）]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/04/how-to-remove-drm-from-kindle/"/>
+    <updated>2012-05-04T02:58:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/04/how-to-remove-drm-from-kindle</id>
+    <content type="html"><![CDATA[<p>這篇文章教你如何將自己從amazon上購買的電子書，移除DRM並複製到其他裝置上觀看。</p>
+
+<p>雖然是老生常談了不過還是重申一下，請在合法備份的前提下使用此工具。</p>
+
+<!-- more -->
+
+
+<p>以下教學環境以windows 7 為主，其他的環境可以參考以下的blog，有很詳細的介紹與說明。</p>
+
+<p>教學網址： <a href="http://apprenticealf.wordpress.com/">http://apprenticealf.wordpress.com/</a></p>
+
+<p>這邊簡述一下你需要做哪些事情，以及我個人在實際操作時所遇到的問題</p>
+
+<h2>1.安裝python 2.7</h2>
+
+<p>到<a href="http://www.python.org/">http://www.python.org/</a>抓，版本2.7，小心不要抓到第三版的，如果你的電腦曾經安裝過python 3的話，即使重裝二版，電腦在執行該程式的時候仍然會以三版為主，在這邊提供一個簡單的解決方法： <strong>將C:\python32 與 C:\python27 資料夾名稱暫時互換</strong> 就可以用最簡單無痛的方法暫時改變電腦上python的版本。</p>
+
+<h2>2.下載script</h2>
+
+<p>本篇文章撰寫的時候是第五版</p>
+
+<p>下載位址：<a href="http://www.datafilehost.com/download-be42f5d1.html">點我</a></p>
+
+<h2>3.解開壓縮檔內的DeDRM_v5.0_WinApp壓縮檔</h2>
+
+<p>要解壓縮到哪邊都沒關係，這個資料夾會在第五步驟裡面用到</p>
+
+<h2>4.找出你要移除drm的電子書</h2>
+
+<p>資料夾預設位置在<code>C:\Users\使用者名稱\Documents\My Kindle Content</code>下，附檔名為azw的檔案就是。</p>
+
+<h2>5.進行drm移除</h2>
+
+<p>將欲移除的檔案拖放到DeDRM_Drop_Target.bat上即可，成功的話會在原azw存放的資料夾下多出一個.mobi檔案，該檔案即為除去DRM後的電子書檔案副本。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在Windows下建立GNU編譯環境]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/"/>
+    <updated>2012-04-06T18:17:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial</id>
+    <content type="html"><![CDATA[<p>這是一篇如何在windows下編譯C/C++程式的教學，這篇教學會教你怎樣在windows下搭起gcc compiler 以及 gnu make，這兩個在linux下寫程式不可或缺的工具，雖說比起Dev-C等無腦工具來說，建立gnu環境是麻煩了些，可是這套工具在linux下同樣適用，提早學習的話，到時候寫程式環境若是換到linux下就不用另外從頭學起摟。</p>
+
+<!-- more -->
+
+
+<h1>在Windows下建立GNU編譯環境</h1>
+
+<h2>0.懶人包</h2>
+
+<p>適合懶得google抓檔案的人</p>
+
+<p>mingw + make for windows 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/win_gnu.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>Sublime for windows x64 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/sublime2181_x64.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>makefile 範例程式： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/learn_makefile.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>這個範例程式裡面有一個makefile簡單的範例，如果不知道makefile長怎樣的話，可以抓回去研究看看</p>
+
+<h2>1. 安裝mingw</h2>
+
+<p>關鍵字：<code>mingw-get-inst</code> 用google搜一下，抓最新的回來安裝就好</p>
+
+<p>安裝的過程中遇到這個畫面的時候，記得把C++編譯器打勾</p>
+
+<h2>2. 安裝make for windows</h2>
+
+<p>關鍵字：<code>make for windows</code>，一樣是抓新版的回來裝</p>
+
+<h2>3.修改環境變數</h2>
+
+<p><code>開始</code> >> <code>我的電腦</code>按右鍵 >> <code>內容</code> >> <code>進階系統設定</code></p>
+
+<p>切換到<code>進階</code>分頁 >> <code>環境變數</code></p>
+
+<p>在<code>Path</code>變數加入以下兩組路徑，路徑之間記得用<code>;</code>(分號)隔開</p>
+
+<p><code>C:\MinGW\bin</code></p>
+
+<p><code>C:\Program Files (x86)\GnuWin32\bin</code></p>
+
+<h2>4.安裝sublime </h2>
+
+<p>google <code>sublime</code>，一樣是挑新版回來抓就好摟</p>
+
+<h2>5.如何編譯程式</h2>
+
+<p>在命令列的環境下，打<code>g++ -o filename.exe filename.cpp</code></p>
+
+<p>就會把filename.cpp編譯成 filename.exe</p>
+
+<h2>6.建立命令列的捷徑 (選擇性步驟)</h2>
+
+<p>由於編譯以及測試會大量的使用到命令列模式，因此建議你在工作目錄下面弄一個開啟命令列的捷徑，方法如下</p>
+
+<p>6.1 開啟文字編輯器，輸入<code>cmd</code>這三個字</p>
+
+<p>6.2 把這個檔案存在你的工作目錄下，檔名為<code>a.bat</code></p>
+
+<p>6.3 以後直接打開<code>a.bat</code>這個檔案就可以進入命令列模式</p>
+
+<h1>撰寫makefile</h1>
+
+<p>makefile簡單的說，就是一個編譯指令的懶人包，</p>
+
+<p>試想，若我們有一天編譯一個專案，需要同時執行g++幾百次，在命令列下面慢慢打入這些指令很浪費時間且不切實際，而make就是把這些編譯過程中所需要用到的指令紀錄在一個makefile檔上，讓我們打下對應的目標時，就幫助我們執行一大段指令，減低我們編譯時的負擔</p>
+
+<p>實際上makefile的存在是為了降低大型專案裡面重編譯系統的時間，一個幾百萬行的專案，若是我們只修改其中部份的原始碼的話，可以利用make重新編譯裡面部份的程式碼並重新連結整個專案，可以大幅降低重新編譯專案的時間(可能是從幾個小時降低到幾分鐘的差距)，但這部份牽扯到許多相對複雜的細節，因此不在這篇教學的討論範圍內，想知道更詳細的內容可以自行google <code>makefile</code></p>
+
+<p>如何撰寫makefile又是另外一套學問&#8230;</p>
+
+<p>初學者有以下的概念即可</p>
+
+<blockquote><h3>當我們打下<code>make xxx</code>指令的時候，make會搜尋該目錄下是否有取名為makefile的檔案，若有的話，會尋找makefile內有沒有xxx規則，若有的話將會依照該規則所指定的指令進行編譯，若沒有的話會回報錯誤</h3>
+
+<h3>當我們打make時沒有指定目標規則的時候，make預設會執行makefile的第一條規則</h3></blockquote>
+
+<h2>1.建立新資料夾</h2>
+
+<p>因為在同一個資料夾下的檔案會共用同樣的makefile   <br/>
+所以養成良好習慣，同一個資料夾下放同一個專案</p>
+
+<h2>2.在該資料夾下建立檔案makefile</h2>
+
+<p>開啟文字編輯器編輯一個新的純文字檔案，檔名取為<code>makefile</code>    <br/>
+檔案內容輸入</p>
+
+<pre><code>main: filename.cpp
+    g++ -o filename.exe filename.cpp
+</code></pre>
+
+<p>（filename請自行替換成目標的程式原始檔檔名）</p>
+
+<p>存檔即可</p>
+
+<h2>3. 利用make 進行編譯</h2>
+
+<p>makefile建立完之後，在該目錄下打入<code>make main</code>，就可以根據main這條我們自行定義的規則進行編譯摟，當然，我們打<code>make</code>也可，由於我們直接打<code>make</code>的時候，make會根據makefile裡面的第一條規則進行處理，在這個範例中，第一條規則是main，所以我們執行<code>make</code>時就等同於<code>make main</code>摟</p>
+
+<h2>4.利用sublime的編譯系統進行make</h2>
+
+<p>在sublime下，可以利用ctrl+B這個快捷鍵直接呼叫make替我們編譯，如果ctrl+B並沒有正確的呼叫make的話，檢查一下</p>
+
+<h3>sublime是否開啟正確的檔案</h3>
+
+<p>還記得嗎，同一個目錄下會共用同一個makefile，而sublime呼叫make時給的makefile是以<strong>此時正在編譯的檔案</strong>為準</p>
+
+<h3>sublime是否指定了<code>make</code>為目標的編譯系統</h3>
+
+<p>在<code>Tools</code> >> <code>Build System</code> 裡面，指定<code>Make</code>即可</p>
+
+<h1>寫在最後</h1>
+
+<p>由於每個人的環境不盡相同，而對於初學者來說，第一次建立gnu compiler環境也確實有他的難度在，因此如果你在安裝上有出任何問題，又或者是認為這份教學有哪邊你覺得很難懂的，歡迎留言，我會在時間允許的範圍下盡力改進這份教學以及在我能力範圍內回答你的問題</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] 在 mac lion XCode 4.3的環境下編譯ruby]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/compile-ruby-on-mac-lion/"/>
+    <updated>2012-04-06T16:10:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/compile-ruby-on-mac-lion</id>
+    <content type="html"><![CDATA[<p>當打下<code>rvm install 1.9.2</code>指令的時候，會出現</p>
+
+<pre><code>The provided compiler '/usr/bin/gcc' is LLVM based, it is not yet fully supported by ruby and gems, please read `rvm requirements`.
+</code></pre>
+
+<p>簡單的說就是他不吃llvb-gcc，所以我們要想辦法生一個標準的gcc給rvm編譯ruby</p>
+
+<!-- more-->
+
+
+<p>解決方法可以很麻煩，也可以很簡單，比較好的作法是去抓gcc的原始碼回來自己編譯，但會花不少時間在編譯上面，如果有興趣的話，可以參考強者我同學（好吧其實只是社團的同學..）鴨七blog的<a href="http://blog.yorkxin.org/2012/03/09/ruby-192-with-xcode-43/">教學</a></p>
+
+<p>如果你跟我一樣懶的話，就抓別人包好的gcc回來用吧，我抓回來測試的結果是一切安好，可以正常執行</p>
+
+<h2><a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">別人包好的gcc</a></h2>
+
+<p>抓回來之後打開，直接安裝，安裝完之後不需要另外設定目錄之類的，直接<code>rvm install 1.9.2</code>重跑一次剛剛你失敗的安裝即可，唯一的差別是這次rvm能夠正常編譯ruby並順利完成安裝 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[閒聊] 使用octopress一段時間後的心得]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/more-octopress/"/>
+    <updated>2012-04-06T16:07:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/more-octopress</id>
+    <content type="html"><![CDATA[<p>octopress用了一段時間了，應該可以來稍微補充一下使用上的感想，這篇文章討論的是主要是關於octopress缺點的部份&#8230;</p>
+
+<!-- more -->
+
+
+<h2>1.作者的更新速度</h2>
+
+<p>作者已經有一段時間沒有更新octopress了，對於octopress的blogger來說，難免會有被放殺的顧慮，許久沒追加的功能，不知道會不會修的bug，某種程度上在考驗著使用者的心臟夠不夠大顆。當然，所有免費軟體都會遇到的同樣問題，一個願打一個願挨怪不得誰，我自己寫爽的幾個程式也曾遇到一樣的情況，所以我自己是很能理解作者懶得更新的心情。</p>
+
+<h2>2.前置環境實在是過於龐大</h2>
+
+<p>還是一樣的問題，用octopress所需要建置的環境實在是麻煩到有找，對於本身就是靠這個來吃飯的程式設計師當然是無感沒錯，但對於一般的使用者來說，維護一個ruby以及git所建立出來的blog實在是過於沈重，我本身常用git，但對於ruby一竅不通，目前就正因為ruby的環境爛掉在重裝，又遇到mac的llvm-gcc不能編譯ruby的問題，現在正在重抓gcc中，所以才會有這篇文章的誕生。</p>
+
+<h2>3.功能過於陽春</h2>
+
+<p>octopress功能上勉強夠用，但是沒有日期分類跟tag分類實在是有點弱，幸好tag分類這功能網路上已經有大大幫忙寫出來了</p>
+
+<h1>結論</h1>
+
+<p>整體來說octopress還是一個很好的選擇，因markdown對我來說吸引力實在是太大了，用過markdown寫過blog之後，我完全沒辦法接受（或者是說，我會開始盡量避免）在一般的rich-text環境下打文章。但我現在其實傾向於尋找能夠接受markdown語法的blog解決方案，而不是使用octopress。畢竟，blog本身存在的意義就是降低使用者維護網站的困難度，讓使用者可以專心的把心力放在文章的撰寫上面，如果使用octopress還要浪費過多的時間在blog環境的調整上，就失去blog系統的初衷了。</p>
+
+<h2>補充</h2>
+
+<p>還好gcc網路上有找到別人包好的pkg，順利裝起來把ruby編譯完成了，要不然讓mac編譯gcc大概又是好幾個小時的苦工。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在mac上root kindle fire (6.2.1 / 6.2.2 / 6.2.3)]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/root-kindle-fire-on-mac/"/>
+    <updated>2012-04-06T15:34:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/root-kindle-fire-on-mac</id>
+    <content type="html"><![CDATA[<p>會想用mac root kindle fire，是因為不知道是我人品太差還是我windows桌機的環境太髒，我在windows上找了五六篇教學嘗試root我手上的kindle fire (6.2.1)統統失敗，浪費了兩三個晚上在搞這台該死的機器實在是令人沮喪的事情，還好最後我發現mac上有人寫好了root的懶人包，抱著死馬當活馬醫的心態下去測最後總算成功root&#8230;
+<img src="http://farm6.staticflickr.com/5234/7049944597_46f45b74a0_b.jpg" alt="" /></p>
+
+<!-- more -->
+
+
+<p>網路上能找到的xx刷機懶人包（在我的電腦上）全部都是爛的，如果你抓完回來測發現你跟我一樣會root失敗的話，可以不用浪費時間去嘗試了，有時候我甚至會懷疑那些懶人包還附上代客改機的網址本身是不是一種暗黑兵法，讓你刷一刷沒刷好就直接找他改機（請原諒我有這種想法，因為我按照某懶人包下去操作連最基本的adb環境都架不起來，最後還是找國外論壇的教學才成功）</p>
+
+<p>後來在國外的網站找了好幾個版本的root程式，最接近成功的一個卡在某個root步驟裡面會沒有回應，無奈之下換個環境測試，找到了<a href="http://forum.xda-developers.com/showthread.php?t=1443071">這個網站</a>，利用他的程式，在我的MBA下成功root kindle fire 6.2.1</p>
+
+<p>由於我在操作過程中沒有把步驟記錄下來，所以在這邊我沒辦法詳細的寫出使用步驟，只能憑印象大概的把我的步驟寫出來，希望這些對想要root kindle fire的人有幫助。</p>
+
+<ol>
+<li><p>下載程式</p></li>
+<li><p>打開 BreakDroid</p></li>
+<li><p>先把android sdk環境裝起來 （install android SDK）</p></li>
+<li><p>進入kindle 選單 （kindle tools）</p></li>
+<li><p>進入自動root模式，依照畫面選單操作（Auto Root Kindle）</p></li>
+</ol>
+
+
+<p>在這些步驟裡面，會有多次要你對kindle重開機，請依照指示把kindle關掉後重開，等重開之後kindle螢幕出現黃色三角形之後，打yes繼續進行其餘步驟。其中有兩個步驟比較特別，一個會提示要等到red xxxxx畫面出現後才能打yes（詳細的訊息我沒有抄下來Orz），這時候在黃色三角形出現後多等一下，就會進入到有紅色標題，類似恢復畫面的文字介面，此時才能繼續打yes，另外一個就是倒數幾個步驟裡面，他會要求你等到kindle完全重新開機進入待機畫面之後才能打yes，原則上就是按照電腦螢幕上面的指示操作即可，每個步驟我自己是都不超過三分鐘。</p>
+
+<p>root完後，打開root explorer，如果root成功的話，此時螢幕上就會提示root explorer已經被賦予root權限，失敗的話螢幕就不會有任何提示。</p>
+
+<p>另外一個很重要的問題：</p>
+
+<h2>如何在kindle fire上安裝apk</h2>
+
+<p>這問題讓我卡很久，其他我碰過的android系統全部都可以直接用market安裝apk，唯獨kindle不行，而且kindle內建的amazon store連安裝免費的app都會要你帳號提供地址以及信用卡付款資料&#8230;&#8230;</p>
+
+<h2>解決辦法：</h2>
+
+<p>1.先去設定中，把安裝第三方app的設定打開。</p>
+
+<p>2.隨便找個網頁空間，把你想安裝的apk丟上去。</p>
+
+<p>3.利用kindle fire內建的瀏覽器抓下來打開，就可以安裝摟。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[開箱] TF10開箱 + 閒聊]]></title>
+    <link href="http://itsPG.github.com/blog/2012/03/26/tf10/"/>
+    <updated>2012-03-26T15:47:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/03/26/tf10</id>
+    <content type="html"><![CDATA[<p>跳水累犯TF10，兩個禮拜前以半價6000入手，到現在也差不多run滿500小時了</p>
+
+<!-- more -->
+
+
+<h1>0HR</h1>
+
+<p>聲音完全是鈍的，極不耐聽</p>
+
+<h1>50HR</h1>
+
+<p>高頻仍然十分刺耳，不耐久戴，但是高頻與中頻開始有TF10獨到的特色出現了，聽弦樂器十分的引人入勝，音場部分我覺得算大，但是環繞感不如IE8。</p>
+
+<p>整體來說，高解析與出色的樂器詮釋讓我打消了『如果不喜歡就儘早脫手』的想法，決定把這隻耳機留下來當做第二主力。但他最大的問題就是資訊太多，只要聽上一段時間頭部就會有明顯的不悅感，這點我朋友也有同樣的感覺。</p>
+
+<p>TF10的人生仍然是他的弱項，但我要收回我之前講的『TF10古典不太行』這句話，TF10的古典現在聽起來已能在大部分的曲目中贏過IE8了。</p>
+
+<h1>300HR</h1>
+
+<p>不知道是不是我配戴上習慣了這隻耳機，抑或是經過300小時的run in之後有所改善，TF10現在比較不會有聽久不舒服的不悅感，在這之前大約聽不到一個小時就必須休息一下，現在可以以合適的音量穩穩的聽上兩三個小時而不會不舒服。</p>
+
+<h1>500HR</h1>
+
+<p>以我的木耳來說聽不太出明顯的變化，TF10在500HR的時候差不多進入狀況，網路上有人說run 1000HR之後會有更大的改善，但我自己覺得300HR~500HR部分沒有明顯到我可以直接而不費力的分辨出來的差異。</p>
+
+<h1>其他</h1>
+
+<p>有想過要不要換線，大家都說TF10原廠的線大幅的限制住TF10應有的實力，但一條線材要耳機價格的50%，如果差距沒有到一聽就可以毫不猶豫的指出差別在哪的話，我會覺得換線材的cp值沒有高到足以讓我投資的程度。</p>
+
+<p>其實我非客製耳機應該在兩年前的IE8就畫下句點才是，這隻跳水的TF10可以完全說是個意外XD，雖說是個十分划算的決定，但手上同時有兩隻同等級的耳機真的很容易有厚此薄彼的困擾，耳朵只有一雙，但是耳機卻有兩副阿&#8230;.，無可避免的，聽其中一副的同時就會冷落到另外一副，這時候就不免會發牢騷，如果ck100pro早個兩年出，兩副耳機的錢一同省下，加起來直接衝ck100pro，就不會有這些庸人自擾了。</p>
+
+<p>接下來的目標還是繼續存錢衝客製耳機（心目中的理想是s2x，但這個國內好像沒有代理，退而求其次的話我目前鎖定JH13），關於客製耳機，我曾經寫信去問過音x，但音X的報價十分的歡樂，大概比國外價格貴上個35%（還要加上國際運費，以及給音x合理的利潤才行），本來就要千鎂的東西還要另外多上一大筆的運費跟代理商利潤，價格實在是太坑爹啦，但要自己上國外網站訂購＋自己做耳膜，卻又沒這尬疵Orz。</p>
+
+<p>沒意外的話我應該在等春假期間抽空去高雄首x看看他們接不接客製，畢竟同樣的一大筆錢，我會希望給我時常叨擾的首x賺，而不是素未謀面的音x，（順便祈禱看首x會不會比音x便宜一點），不過當然最大的問題還是何時才能存夠這筆錢了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] CSS3圓角 & CSS3動畫]]></title>
+    <link href="http://itsPG.github.com/blog/2012/03/04/css3/"/>
+    <updated>2012-03-04T21:22:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/03/04/css3</id>
+    <content type="html"><![CDATA[<p>這篇文章筆記一下CSS3的圓角跟CSS3動畫的語法，順便推薦一個很好用的CSS按鈕產生工具</p>
+
+<!-- more -->
+
+
+<h1>CSS按鈕產生工具</h1>
+
+<p><a href="http://www.colorzilla.com/gradient-editor/">Ultimate CSS Gradient Generator</a>
+拿來處理CSS的漸層再方便不過了</p>
+
+<h1>CSS3 圓角</h1>
+
+<h2>在Chrome, Safari下：</h2>
+
+<p>統一設定：</p>
+
+<pre><code>-webkit-border-radius:10px;
+</code></pre>
+
+<p>分開設定：</p>
+
+<pre><code>-webkit-border-top-left-radius:15px; 
+-webkit-border-top-right-radius:15px;
+-webkit-border-bottom-right-radius:10px;
+-webkit-border-bottom-left-radius:10px;
+</code></pre>
+
+<h2>在Firefox下：</h2>
+
+<p>統一設定：</p>
+
+<pre><code>-moz-border-radius:10px;
+</code></pre>
+
+<p>分開設定：</p>
+
+<pre><code>-moz-border-top-left-radius:15px;
+-moz-border-top-right-radius:15px;
+-moz-border-bottom-right-radius:10px;
+-moz-border-bottom-left-radius:10px;
+</code></pre>
+
+<h1>CSS3 淡出動畫</h1>
+
+<p>參考資料：<a href="http://www.w3schools.com/css3/css3_animations.asp">w3schools.com</a>
+懶人包1：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="nf">#navbar-iframe</span><span class="nd">:hover</span><span class="p">{</span>
+</span><span class='line'>      <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">;</span> <span class="c">/* Other */</span>
+</span><span class='line'>      <span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">;</span> <span class="c">/* Safari, Chrome and Firefox */</span>
+</span><span class='line'>      <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">navbar</span> <span class="m">1s</span><span class="p">;</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>      <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">navbar</span> <span class="m">1s</span><span class="p">;</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">@-moz-keyframes</span> <span class="nt">navbar</span> <span class="p">{</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>      <span class="nt">from</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>      <span class="nt">to</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">@-webkit-keyframes</span> <span class="nt">navbar</span> <span class="p">{</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'>      <span class="nt">from</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>      <span class="nt">to</span> <span class="p">{</span><span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">0</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>懶人包2:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>   <span class="nt">css</span> <span class="nt">test</span>
+</span><span class='line'>  <span class="nt">div</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">width</span><span class="o">:</span><span class="m">100px</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">height</span><span class="o">:</span><span class="m">100px</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">position</span><span class="o">:</span><span class="k">relative</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span>
+</span><span class='line'>      <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>      <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span><span class="n">myfirst</span> <span class="m">5s</span><span class="p">;</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">@keyframes</span> <span class="nt">myfirst</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">@-moz-keyframes</span> <span class="nt">myfirst</span> <span class="c">/* Firefox */</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">@-webkit-keyframes</span> <span class="nt">myfirst</span> <span class="c">/* Safari and Chrome */</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nt">0</span><span class="o">%</span>   <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">25</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">yellow</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">50</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">blue</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">200px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">75</span><span class="o">%</span>  <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">green</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">200px</span><span class="p">;}</span>
+</span><span class='line'>      <span class="nt">100</span><span class="o">%</span> <span class="p">{</span><span class="k">background</span><span class="o">:</span><span class="nb">red</span><span class="p">;</span> <span class="k">left</span><span class="o">:</span><span class="m">0px</span><span class="p">;</span> <span class="k">top</span><span class="o">:</span><span class="m">0px</span><span class="p">;}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在windows上安裝octopress 新手教學 / 初學者指南]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/"/>
+    <updated>2012-02-29T19:39:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial</id>
+    <content type="html"><![CDATA[<p>以下是今天測試過，確定可以順利安裝octopress並成功發佈到github的流程，octopress安裝過程繁複，上手不易，希望這篇簡單的教學可以幫助第一次使用octopress的人順利架起環境。</p>
+
+<p>另，在依照這篇教學一步一步操作之前，請先確定</p>
+
+<ul>
+<li>你的windows已經安裝完git</li>
+<li>你已經有一個github的帳號</li>
+<li>已經擁有&#8221;username.github.com&#8221;這個repo</li>
+</ul>
+
+
+<p>關於這部份的教學可以google &#8220;github page&#8221;，或者是參考我寫的<a href="http://itspg.github.com/blog/2012/02/29/github-on-windows-tutorial/">這篇教學</a>在這邊就不再贅述了。</p>
+
+<!-- more -->
+
+
+<h2>1.安裝ruby環境</h2>
+
+<p>在<a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a> 中，下載RubyInstaller 1.9.2-p290這個版本並安裝</p>
+
+<h2>2.安裝ruby的Devkit</h2>
+
+<h3>2.1 在同樣的頁面，找到Development Kit，下載並解壓縮</h3>
+
+<h3>2.2 進入剛剛解壓縮的資料夾，打入以下指令</h3>
+
+<pre><code>ruby dk.rb init
+ruby dk.rb install
+</code></pre>
+
+<p>以下步驟開始請從開始功能表中的 &#8220;Start Command Prompt with Ruby&#8221; 的環境下進行</p>
+
+<h2>3.更新gem</h2>
+
+<pre><code>gem update --system
+</code></pre>
+
+<h2>4.抓取octopress原始碼並安裝</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+</code></pre>
+
+<h2>5.設定github相關的deploy設定</h2>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>這時候他會問你github上ssh的路徑，一般來說長得像是這樣</p>
+
+<p><code>git@github.com:rixia/rixia.github.com.git</code></p>
+
+<p>rixia請自行代換成你的使用者名稱</p>
+
+<h2>6.編輯_config.yml</h2>
+
+<p>這個檔案是Blog的相關設定，打開後可以依照需要自行修改，懶的改的話跳過這個步驟也可</p>
+
+<h2>7.建立新文章</h2>
+
+<pre><code>rake new_post["this is the title"]
+</code></pre>
+
+<p>打完指令後在_posts下就會出現該篇文章，可以自己打開來修改並加入內容</p>
+
+<h2>8.發佈</h2>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<p>打完以上指令之後就會把內容編譯後上傳到github上<br/>
+在上傳到github前，你也可以用<code>rake preview</code>指令，觀看預覽<br/>
+預覽結果會出現在<code>http://127.0.0.1:4000</code></p>
+
+<h2>如果在<code>rake generate</code>時出錯</h2>
+
+<p>這是Jekyll編譯原始碼的時候遇到UTF-8會發生的編碼問題<br/>
+解決方法如下：在<code>rake generate</code>之前先打入以下指令</p>
+
+<pre><code>set LC_ALL=zh_TW.UTF-8
+set LANG=zh_TW.UTF-8
+</code></pre>
+
+<p>即可解決問題</p>
+
+<h1>結尾</h1>
+
+<p>最簡單的安裝教學大致上就是這樣。</p>
+
+<p>剩下進一步的操作，<a href="http://octopress.org/docs/">官方文件</a>上面解說的算詳盡，可以參考看看</p>
+]]></content>
+  </entry>
+  
+</feed>

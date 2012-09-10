@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 網管筆記 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/網管筆記/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] Windows下 appserv 的Apache2 設定virtual host]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/15/appserv-virtual-host/"/>
+    <updated>2012-02-15T17:04:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/15/appserv-virtual-host</id>
+    <content type="html"><![CDATA[<p>不知道為什麼，網路上google到的教學很多都過時了Orz</p>
+
+<!-- more -->
+
+
+<h2>1. 修改Apache的httpd.conf</h2>
+
+<p>找到<code>#Include conf/extra/httpd-vhosts.conf</code>這一行，把前面的#拿掉，存檔</p>
+
+<h2>2. 修改conf/extra/httpd-vhosts.conf</h2>
+
+<p>以下是我使用的設定檔，看一下應該就知道該怎樣修改了</p>
+
+<pre><code>NameVirtualHost *:80
+&lt;VirtualHost *:80&gt;
+    DocumentRoot "D:/AppServ/www"  
+    ServerName sharu.eruru.tw       
+    &lt;Directory "D:/AppServ/www"&gt;
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:80&gt;
+    DocumentRoot "D:/AppServ/beta"  
+    ServerName kiseki.cc         
+    &lt;Directory "D:/AppServ/beta"&gt;
+        Options FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>以這個設定檔來說，我把<br/>
+<code>sharu.eruru.tw</code> 對應到 <code>D:/AppServ/www</code> 這個目錄<br/>
+<code>kiseki.cc</code> 對應到 <code>D:/AppServ/beta</code> 這個目錄</p>
+
+<h2>3. 重新啟動Apache</h2>
+
+<p>以上，修改完成。</p>
+]]></content>
+  </entry>
+  
+</feed>

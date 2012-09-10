@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[閒聊] 使用octopress一段時間後的心得]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/more-octopress/"/>
+    <updated>2012-04-06T16:07:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/more-octopress</id>
+    <content type="html"><![CDATA[<p>octopress用了一段時間了，應該可以來稍微補充一下使用上的感想，這篇文章討論的是主要是關於octopress缺點的部份...</p>
+
+<!-- more -->
+
+
+<h2>1.作者的更新速度</h2>
+
+<p>作者已經有一段時間沒有更新octopress了，對於octopress的blogger來說，難免會有被放殺的顧慮，許久沒追加的功能，不知道會不會修的bug，某種程度上在考驗著使用者的心臟夠不夠大顆。當然，所有免費軟體都會遇到的同樣問題，一個願打一個願挨怪不得誰，我自己寫爽的幾個程式也曾遇到一樣的情況，所以我自己是很能理解作者懶得更新的心情。</p>
+
+<h2>2.前置環境實在是過於龐大</h2>
+
+<p>還是一樣的問題，用octopress所需要建置的環境實在是麻煩到有找，對於本身就是靠這個來吃飯的程式設計師當然是無感沒錯，但對於一般的使用者來說，維護一個ruby以及git所建立出來的blog實在是過於沈重，我本身常用git，但對於ruby一竅不通，目前就正因為ruby的環境爛掉在重裝，又遇到mac的llvm-gcc不能編譯ruby的問題，現在正在重抓gcc中，所以才會有這篇文章的誕生。</p>
+
+<h2>3.功能過於陽春</h2>
+
+<p>octopress功能上勉強夠用，但是沒有日期分類跟tag分類實在是有點弱，幸好tag分類這功能網路上已經有大大幫忙寫出來了</p>
+
+<h1>結論</h1>
+
+<p>整體來說octopress還是一個很好的選擇，因markdown對我來說吸引力實在是太大了，用過markdown寫過blog之後，我完全沒辦法接受（或者是說，我會開始盡量避免）在一般的rich-text環境下打文章。但我現在其實傾向於尋找能夠接受markdown語法的blog解決方案，而不是使用octopress。畢竟，blog本身存在的意義就是降低使用者維護網站的困難度，讓使用者可以專心的把心力放在文章的撰寫上面，如果使用octopress還要浪費過多的時間在blog環境的調整上，就失去blog系統的初衷了。</p>
+
+<h2>補充</h2>
+
+<p>還好gcc網路上有找到別人包好的pkg，順利裝起來把ruby編譯完成了，要不然讓mac編譯gcc大概又是好幾個小時的苦工。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在windows上安裝octopress 新手教學 / 初學者指南]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/"/>
+    <updated>2012-02-29T19:39:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial</id>
+    <content type="html"><![CDATA[<p>以下是今天測試過，確定可以順利安裝octopress並成功發佈到github的流程，octopress安裝過程繁複，上手不易，希望這篇簡單的教學可以幫助第一次使用octopress的人順利架起環境。</p>
+
+<p>另，在依照這篇教學一步一步操作之前，請先確定</p>
+
+<ul>
+<li>你的windows已經安裝完git</li>
+<li>你已經有一個github的帳號</li>
+<li>已經擁有"username.github.com"這個repo</li>
+</ul>
+
+
+<p>關於這部份的教學可以google "github page"，或者是參考我寫的<a href="http://itspg.github.com/blog/2012/02/29/github-on-windows-tutorial/">這篇教學</a>在這邊就不再贅述了。</p>
+
+<!-- more -->
+
+
+<h2>1.安裝ruby環境</h2>
+
+<p>在<a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a> 中，下載RubyInstaller 1.9.2-p290這個版本並安裝</p>
+
+<h2>2.安裝ruby的Devkit</h2>
+
+<h3>2.1 在同樣的頁面，找到Development Kit，下載並解壓縮</h3>
+
+<h3>2.2 進入剛剛解壓縮的資料夾，打入以下指令</h3>
+
+<pre><code>ruby dk.rb init
+ruby dk.rb install
+</code></pre>
+
+<p>以下步驟開始請從開始功能表中的 "Start Command Prompt with Ruby" 的環境下進行</p>
+
+<h2>3.更新gem</h2>
+
+<pre><code>gem update --system
+</code></pre>
+
+<h2>4.抓取octopress原始碼並安裝</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+</code></pre>
+
+<h2>5.設定github相關的deploy設定</h2>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>這時候他會問你github上ssh的路徑，一般來說長得像是這樣</p>
+
+<p><code>git@github.com:rixia/rixia.github.com.git</code></p>
+
+<p>rixia請自行代換成你的使用者名稱</p>
+
+<h2>6.編輯_config.yml</h2>
+
+<p>這個檔案是Blog的相關設定，打開後可以依照需要自行修改，懶的改的話跳過這個步驟也可</p>
+
+<h2>7.建立新文章</h2>
+
+<pre><code>rake new_post["this is the title"]
+</code></pre>
+
+<p>打完指令後在_posts下就會出現該篇文章，可以自己打開來修改並加入內容</p>
+
+<h2>8.發佈</h2>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<p>打完以上指令之後就會把內容編譯後上傳到github上<br/>
+在上傳到github前，你也可以用<code>rake preview</code>指令，觀看預覽<br/>
+預覽結果會出現在<code>http://127.0.0.1:4000</code></p>
+
+<h2>如果在<code>rake generate</code>時出錯</h2>
+
+<p>這是Jekyll編譯原始碼的時候遇到UTF-8會發生的編碼問題<br/>
+解決方法如下：在<code>rake generate</code>之前先打入以下指令</p>
+
+<pre><code>set LC_ALL=zh_TW.UTF-8
+set LANG=zh_TW.UTF-8
+</code></pre>
+
+<p>即可解決問題</p>
+
+<h1>結尾</h1>
+
+<p>最簡單的安裝教學大致上就是這樣。</p>
+
+<p>剩下進一步的操作，<a href="http://octopress.org/docs/">官方文件</a>上面解說的算詳盡，可以參考看看</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello-octopress]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/14/hello-octopress/"/>
+    <updated>2012-02-14T23:50:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/14/hello-octopress</id>
+    <content type="html"><![CDATA[<h1>Hello Octopress</h1>
+
+<p>在昨天決定將blog平台轉換到octopress了，換到octopress上面有哪些好處，可以參考XDite前輩的這篇文章<a href="http://blog.xdite.net/posts/2011/10/07/what-is-octopress/" title="why octopress">why</a></p>
+
+<p>對我來說，octopress吸引我的地方有三個主要的原因</p>
+
+<p>1.純文字編輯 + 優雅的處理內嵌程式碼
+2.版本控制
+3.高度自訂能力 + 靜態頁面</p>
+
+<!-- more -->
+
+
+<h2>1.純文字編輯 + 優雅的處理內嵌程式碼</h2>
+
+<p>認識我的人應該都知道，我對word十分的感冒，發文也是偏好bbs-like的純文字編輯環境，大學時代在貼blog文章的時候幾乎都是用<a href="http://smartpg.pixnet.net/blog/post/14068283" title="q10">q10</a>這套軟體在編輯，除了上研究所之後要繳報告不得不開始練習使用word之外，在進研究所之前，我是不用word的，大學中雖然也有不少繳交報告的機會，但由於並不是真的要拿出去當做什麼正式文件，只好得過且過。</p>
+
+<p>在octopress，利用markdown的語法撰寫一篇blog是一件很愉快的事情，對我來說大概就跟在bbs上面發文一樣的愉快吧，撰寫文章的時候排版習慣跟連結幾乎都可以沿用bbs上的思考邏輯，貼程式碼的時候也可以用很優雅的方式貼上，完全不需要擔心排版方面的問題，甚至必要的時候還可以從外部連入程式碼以及<a href="https://gist.github.com/" title="gist">gist</a></p>
+
+<p>用純文字編輯還有另外一個好處，就是你手上保留著最乾淨最原始的blog文章，而且該有的資訊一個都不少，到時候想要跳槽或者是換平台的話，保留原始檔一切都好說，甚至是主機出問題想要還原資料都很好處理。</p>
+
+<h2>2.版本控制</h2>
+
+<p>版本控制的強大之處，差不多可以比喻成遊戲中的存檔，在想要改程式碼之前先存個檔，修改之後不小心改爛的話，馬上可以讀回之前的存檔，甚至可以開比較研究兩個版本之間的差異，找出可能出問題的地方，這個功能如果自己本身沒在寫程式的話大概很難體會他的方便之處吧。</p>
+
+<p>當然，blog文章沒有不小心改爛的問題，所以這個優點其實並沒有那麼的明顯，不過可以追蹤修訂對於網站來說非常的好用，舉例來說，我就在考慮是否應該將我個人記錄的網站改到octopress的架構下，因為在我的個人網站中，有一些對於動畫之類的喜好度評分，就常常在變動與修改，如果能保有修訂的痕跡的話，以後就能回頭檢視以前的log，是一件頗吸引人的特色。</p>
+
+<h2>3.高度自訂能力 + 靜態頁面</h2>
+
+<p>那些有能力去大改wordpress或者是pixnet的樣板的人，不是超威要不然就是個M，相對之下octopress的架構單純多了，基於Jekyll引擎所產生的頁面，必要的時候也可以直接去修改octopress生成靜態html檔案的部份，我稍微瞄過，我覺得那個比自己去改wordpress的source code簡單多了。</p>
+
+<p>靜態頁面有優點也有缺點這個好不好因人而異，不過一般的情況下都是優點大於缺點的。</p>
+
+<h1>缺點呢</h1>
+
+<h2>1.上手對於一般人來說門檻很高</h2>
+
+<p>你最少要會基本的Unix-like操作，能夠安裝ruby環境，懂得用git，最好還要懂得基本的HTML跟CSS，當這些都ok之後，你還要學markdown語法（雖說很簡單），如果這些工具你本來不會，勢必要花上不少的時間去學習以及熟悉。</p>
+
+<h2>2.沒有懶人包這種東西</h2>
+
+<p>以後可能會有，不過我覺得機率不高，畢竟很多東西沒有自己親自下去操作與修改就失去了用octopress的意義了</p>
+
+<h2>3.部分外掛要自己找，沒有圖床，管理上不如wordpress好用</h2>
+
+<p>我想，對於會用octopress的人來說，這些缺點就是他的優點吧。</p>
+
+<p>不過<strong>貼圖麻煩</strong>這點非常致命，圖片放大縮小的外掛還要自己去找，雖說我可能有時間就自己寫一個就是了，不過在我沒有處理好外掛之前，blog上的貼圖大概會一直處於非常殘念的狀態。</p>
+
+<h1>總結</h1>
+
+<p>如果你只是寫寫文章，貼貼圖，那麼wordpress已經十分足夠。</p>
+
+<p>如果你平常blog文章中有許多內嵌的程式碼，如果你跟我一樣討厭設定一堆格式，喜歡利用一些簡單而容易閱讀的語法輔助你文章的排版，又或者，你享受利用git做版本控制的愉悅，你討厭管機器，需要有一個不依賴於環境的靜態blog生成工具，那麼，我在此極力推薦您，務必試試看octopress</p>
+]]></content>
+  </entry>
+  
+</feed>

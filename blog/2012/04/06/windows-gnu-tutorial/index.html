@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>[教學] 在Windows下建立GNU編譯環境 - itsPG.org</title>
+  <meta name="author" content="PG">
+
+  
+  <meta name="description" content="這是一篇如何在windows下編譯C/C++程式的教學，這篇教學會教你怎樣在windows下搭起gcc compiler 以及 gnu make，這兩個在linux下寫程式不可或缺的工具，雖說比起Dev-C等無腦工具來說，建立gnu環境是麻煩了些，可是這套工具在linux下同樣適用，提早學習的話， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="itsPG.org" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30005661-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">itsPG.org</a></h1>
+  
+    <h2>PG @ NCTU SenseLab</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:itsPG.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">[教學] 在Windows下建立GNU編譯環境</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-06T18:17:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>這是一篇如何在windows下編譯C/C++程式的教學，這篇教學會教你怎樣在windows下搭起gcc compiler 以及 gnu make，這兩個在linux下寫程式不可或缺的工具，雖說比起Dev-C等無腦工具來說，建立gnu環境是麻煩了些，可是這套工具在linux下同樣適用，提早學習的話，到時候寫程式環境若是換到linux下就不用另外從頭學起摟。</p>
+
+<!-- more -->
+
+
+<h1>在Windows下建立GNU編譯環境</h1>
+
+<h2>0.懶人包</h2>
+
+<p>適合懶得google抓檔案的人</p>
+
+<p>mingw + make for windows 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/win_gnu.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>Sublime for windows x64 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/sublime2181_x64.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>makefile 範例程式： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/learn_makefile.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>這個範例程式裡面有一個makefile簡單的範例，如果不知道makefile長怎樣的話，可以抓回去研究看看</p>
+
+<h2>1. 安裝mingw</h2>
+
+<p>關鍵字：<code>mingw-get-inst</code> 用google搜一下，抓最新的回來安裝就好</p>
+
+<p>安裝的過程中遇到這個畫面的時候，記得把C++編譯器打勾</p>
+
+<h2>2. 安裝make for windows</h2>
+
+<p>關鍵字：<code>make for windows</code>，一樣是抓新版的回來裝</p>
+
+<h2>3.修改環境變數</h2>
+
+<p><code>開始</code> >> <code>我的電腦</code>按右鍵 >> <code>內容</code> >> <code>進階系統設定</code></p>
+
+<p>切換到<code>進階</code>分頁 >> <code>環境變數</code></p>
+
+<p>在<code>Path</code>變數加入以下兩組路徑，路徑之間記得用<code>;</code>(分號)隔開</p>
+
+<p><code>C:\MinGW\bin</code></p>
+
+<p><code>C:\Program Files (x86)\GnuWin32\bin</code></p>
+
+<h2>4.安裝sublime </h2>
+
+<p>google <code>sublime</code>，一樣是挑新版回來抓就好摟</p>
+
+<h2>5.如何編譯程式</h2>
+
+<p>在命令列的環境下，打<code>g++ -o filename.exe filename.cpp</code></p>
+
+<p>就會把filename.cpp編譯成 filename.exe</p>
+
+<h2>6.建立命令列的捷徑 (選擇性步驟)</h2>
+
+<p>由於編譯以及測試會大量的使用到命令列模式，因此建議你在工作目錄下面弄一個開啟命令列的捷徑，方法如下</p>
+
+<p>6.1 開啟文字編輯器，輸入<code>cmd</code>這三個字</p>
+
+<p>6.2 把這個檔案存在你的工作目錄下，檔名為<code>a.bat</code></p>
+
+<p>6.3 以後直接打開<code>a.bat</code>這個檔案就可以進入命令列模式</p>
+
+<h1>撰寫makefile</h1>
+
+<p>makefile簡單的說，就是一個編譯指令的懶人包，</p>
+
+<p>試想，若我們有一天編譯一個專案，需要同時執行g++幾百次，在命令列下面慢慢打入這些指令很浪費時間且不切實際，而make就是把這些編譯過程中所需要用到的指令紀錄在一個makefile檔上，讓我們打下對應的目標時，就幫助我們執行一大段指令，減低我們編譯時的負擔</p>
+
+<p>實際上makefile的存在是為了降低大型專案裡面重編譯系統的時間，一個幾百萬行的專案，若是我們只修改其中部份的原始碼的話，可以利用make重新編譯裡面部份的程式碼並重新連結整個專案，可以大幅降低重新編譯專案的時間(可能是從幾個小時降低到幾分鐘的差距)，但這部份牽扯到許多相對複雜的細節，因此不在這篇教學的討論範圍內，想知道更詳細的內容可以自行google <code>makefile</code></p>
+
+<p>如何撰寫makefile又是另外一套學問&#8230;</p>
+
+<p>初學者有以下的概念即可</p>
+
+<blockquote><h3>當我們打下<code>make xxx</code>指令的時候，make會搜尋該目錄下是否有取名為makefile的檔案，若有的話，會尋找makefile內有沒有xxx規則，若有的話將會依照該規則所指定的指令進行編譯，若沒有的話會回報錯誤</h3>
+
+<h3>當我們打make時沒有指定目標規則的時候，make預設會執行makefile的第一條規則</h3></blockquote>
+
+<h2>1.建立新資料夾</h2>
+
+<p>因為在同一個資料夾下的檔案會共用同樣的makefile   <br/>
+所以養成良好習慣，同一個資料夾下放同一個專案</p>
+
+<h2>2.在該資料夾下建立檔案makefile</h2>
+
+<p>開啟文字編輯器編輯一個新的純文字檔案，檔名取為<code>makefile</code>    <br/>
+檔案內容輸入</p>
+
+<pre><code>main: filename.cpp
+    g++ -o filename.exe filename.cpp
+</code></pre>
+
+<p>（filename請自行替換成目標的程式原始檔檔名）</p>
+
+<p>存檔即可</p>
+
+<h2>3. 利用make 進行編譯</h2>
+
+<p>makefile建立完之後，在該目錄下打入<code>make main</code>，就可以根據main這條我們自行定義的規則進行編譯摟，當然，我們打<code>make</code>也可，由於我們直接打<code>make</code>的時候，make會根據makefile裡面的第一條規則進行處理，在這個範例中，第一條規則是main，所以我們執行<code>make</code>時就等同於<code>make main</code>摟</p>
+
+<h2>4.利用sublime的編譯系統進行make</h2>
+
+<p>在sublime下，可以利用ctrl+B這個快捷鍵直接呼叫make替我們編譯，如果ctrl+B並沒有正確的呼叫make的話，檢查一下</p>
+
+<h3>sublime是否開啟正確的檔案</h3>
+
+<p>還記得嗎，同一個目錄下會共用同一個makefile，而sublime呼叫make時給的makefile是以<strong>此時正在編譯的檔案</strong>為準</p>
+
+<h3>sublime是否指定了<code>make</code>為目標的編譯系統</h3>
+
+<p>在<code>Tools</code> >> <code>Build System</code> 裡面，指定<code>Make</code>即可</p>
+
+<h1>寫在最後</h1>
+
+<p>由於每個人的環境不盡相同，而對於初學者來說，第一次建立gnu compiler環境也確實有他的難度在，因此如果你在安裝上有出任何問題，又或者是認為這份教學有哪邊你覺得很難懂的，歡迎留言，我會在時間允許的範圍下盡力改進這份教學以及在我能力範圍內回答你的問題</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">PG</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-06T18:17:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/教學/'>教學</a>, <a class='category' href='/blog/categories/程設/'>程設</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/" data-via="" data-counturl="http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/06/compile-ruby-on-mac-lion/" title="Previous Post: [筆記] 在 mac lion XCode 4.3的環境下編譯ruby">&laquo; [筆記] 在 mac lion XCode 4.3的環境下編譯ruby</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/05/04/how-to-remove-drm-from-kindle/" title="Next Post: [教學] 移除amazon kindle的DRM保護 （How to remove DRM from kindle）">[教學] 移除amazon kindle的DRM保護 （How to remove DRM from kindle） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/freebsd9-dot-0-install-note/">FreeBSD 9.0 快速安裝教學 （上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/13/use-python3-to-login-http-web/">[程設] Use http.cookiejar and urllib.request to POST login http webpage in Python 3.2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/22/auto-anime-list-creator/">[作品] 多檔案index.html自動產生工具 v0.4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/21/python-utf8-fix-for-windows-terminal/">[程設] Python 3.2 在windows下的UTF8解決方案，解決can't decode以及亂碼的問題</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/21/alter-charlotte-dunois/">[開箱] Alter 夏綠蒂 運動夾克ver （シャルロット・デュノア　ジャージVer.）</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/blog/categories/acgn' style='font-size: 112.0%'>Acgn(1)</a>  <a href='/blog/categories/figure' style='font-size: 112.0%'>Figure(1)</a>  <a href='/blog/categories/freebsd' style='font-size: 124.0%'>Freebsd(2)</a>  <a href='/blog/categories/git' style='font-size: 124.0%'>Git(2)</a>  <a href='/blog/categories/kindle' style='font-size: 112.0%'>Kindle(1)</a>  <a href='/blog/categories/mac' style='font-size: 136.0%'>Mac(3)</a>  <a href='/blog/categories/octopress' style='font-size: 136.0%'>Octopress(3)</a>  <a href='/blog/categories/python' style='font-size: 136.0%'>Python(3)</a>  <a href='/blog/categories/root' style='font-size: 112.0%'>Root(1)</a>  <a href='/blog/categories/ruby' style='font-size: 112.0%'>Ruby(1)</a>  <a href='/blog/categories/webdesign' style='font-size: 112.0%'>Webdesign(1)</a>  <a href='/blog/categories/教學' style='font-size: 160.0%'>教學(5)</a>  <a href='/blog/categories/程式作品' style='font-size: 112.0%'>程式作品(1)</a>  <a href='/blog/categories/程設' style='font-size: 124.0%'>程設(2)</a>  <a href='/blog/categories/筆記' style='font-size: 112.0%'>筆記(1)</a>  <a href='/blog/categories/網管' style='font-size: 112.0%'>網管(1)</a>  <a href='/blog/categories/網管筆記' style='font-size: 112.0%'>網管筆記(1)</a>  <a href='/blog/categories/網管筆記-' style='font-size: 112.0%'>網管筆記,(1)</a>  <a href='/blog/categories/軟體' style='font-size: 112.0%'>軟體(1)</a>  <a href='/blog/categories/開箱' style='font-size: 160.0%'>開箱(5)</a>  <a href='/blog/categories/閒聊' style='font-size: 112.0%'>閒聊(1)</a>  <a href='/blog/categories/閒聊-軟體' style='font-size: 112.0%'>閒聊,軟體(1)</a>  <a href='/blog/categories/雪泥鴻爪' style='font-size: 112.0%'>雪泥鴻爪(1)</a> </span>
+</section>
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - PG -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itspgitspg';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/';
+        var disqus_url = 'http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

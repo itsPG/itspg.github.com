@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 軟體 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/軟體/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[軟體] Sublime Text 2 一套相見恨晚的程式碼編輯工具]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/16/sublime/"/>
+    <updated>2012-02-16T02:13:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/16/sublime</id>
+    <content type="html"><![CDATA[<p><img src="http://farm8.staticflickr.com/7056/6882051975_686b6a7b04_b.jpg" alt="sublime" /></p>
+
+<p>在搜尋mac下比較好用的程式碼編輯器的時候意外發現的好東西，拿來寫程式一整個超爽的！</p>
+
+<!-- more -->
+
+
+<p>目前beta中，可以到<a href="http://www.sublimetext.com/">官方網站</a>上面抓公開測試版回來試用，雖說這套軟體是要錢的，而且售價還著實不便宜(將近台票兩千)，但目前的公開測試版其實並沒有使用功能或者是時間上的限制，只是存檔到一定次數之後會彈出視窗請你花錢購買他的license，跟WinRAR每次打開壓縮檔都會跳出購買視窗一比之下，就會覺得Sublime Text 2開發者真的是佛心來的啦！</p>
+
+<p>流暢的編輯，智慧型的tab以及括號補完，不錯用的程式碼提示工具，美觀的程式碼上色，右邊的程式碼縮圖以及比較時相當好用的分割視窗，以及內建build介面，好用的地方在哪，自己親自抓回來試過一遍就知道了。</p>
+
+<p>目前beta唯一的缺點大概就windows版本下滾輪捲動幅度太小，操作有點吃力吧，Mac版因為我用MBA的觸控，捲動操作起來倒是毫無困擾，希望他在以後的版本改進這一點。</p>
+
+<p>另外一個問題(網路上看到的問題)，就是sublime在開大檔的時候不順，幸好程式碼很少會出現一個檔案好幾MB的大檔，所以問題不大。</p>
+]]></content>
+  </entry>
+  
+</feed>

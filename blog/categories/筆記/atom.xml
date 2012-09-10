@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 筆記 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/筆記/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] 在windows下使用git / github，解決中文檔名出錯 / 中文亂碼問題]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/15/windows-git/"/>
+    <updated>2012-02-15T15:43:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/15/windows-git</id>
+    <content type="html"><![CDATA[<p>標題故意打長一點，看有沒有辦法增加被google到的機會，因為一開始我google到改git設定檔的方法對我來說並不work，我後來又找了一下才發現，已經有人對git以及tortoise的程式碼進行修正，將git的存檔編碼改為utf-8</p>
+
+<!--more -->
+
+
+<p>在把以前的版本解除安裝，裝完<a href="http://www.cnblogs.com/tinyfish/archive/2011/01/17/1909463.html">修改過後的版本</a>後，重新開機就解決問題了</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 網管筆記, | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/網管筆記-/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[網管] 利用USB安裝FreeBSD / 製作FreeBSD的USB安裝碟]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/install-freebsd-by-usb/"/>
+    <updated>2012-05-21T03:56:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/install-freebsd-by-usb</id>
+    <content type="html"><![CDATA[<p>最近資訊社的機器有一台要重灌，想說除了練習FreeBSD的安裝之外，順便來試試看用USB安裝FreeBSD順不順，沒想到，使用 <a href="http://blog.tenyi.com/2011/07/freebsdusb.html">UNetbootin</a>解壓縮安裝檔到USB隨身碟上，居然有一萬七千多個檔，在我老舊的USB隨身碟上，居然要花兩個多小時製作。</p>
+
+<p>Google了一下後，發現原來FreeBSD有提供記憶體img的安裝方式，將記憶體內容包到img裡面，安裝的時候直接複製到記憶體中，既可以當LiveCD用，也可以大幅提昇安裝USB碟的製作速度，（別忘了，隨身碟對小檔讀寫的能力都不是很理想，更何況我用的是好幾年前的便宜貨）</p>
+
+<!-- more -->
+
+
+<p>在Windows上，有一套軟體叫做 Image Writer for Windows，可以直接幫你從img檔案製作USB安裝碟。</p>
+
+<p>在Linux / Unix / Mac上，也是有方法可以弄，不過這些方法我是從<a href="http://blog.tenyi.com/2011/07/freebsdusb.html">這篇blog</a>上看到的，以下轉貼僅供參考，我並沒有實際的操作過。</p>
+
+<blockquote><p>先unmount隨身碟<br/><br/>
+$ sudo umount /dev/sdc<br/>
+<strong>Linux</strong>原本就可寫入MBR，所以只要：<br/>
+$ sudo umount /dev/sdc<br/>
+$ sudo dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/sdc bs=64k<br/>
+<strong>Mac</strong>稍微麻煩一點，因為磁碟工具程式似乎不支援不認得的File System：<br/>
+要知道mount到哪兒，可以在Terminal（終端機）看  <br/>
+$ sudo mount  <br/>
+若己經有檔案系統，可先別急著在Finder上按退出，因為會連device都退出 （這裏假設是 /dev/disk1） <br/>
+$ sudo diskutil umount /dev/disk1  <br/>
+或是  <br/>
+$ sudo diskutil umount [你USB碟的Label名稱]  <br/>
+接下來  <br/>
+$ sudo dd if=FreeBSD-8.2-RELEASE-i386-memstick.img of=/dev/disk1 bs=64k  <br/></p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 程設 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/程設/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[程設] Python 3.2 在windows下的UTF8解決方案，解決can't decode以及亂碼的問題]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/python-utf8-fix-for-windows-terminal/"/>
+    <updated>2012-05-21T05:08:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/python-utf8-fix-for-windows-terminal</id>
+    <content type="html"><![CDATA[<p>以前用Ruby操作windows上的資料夾的時候，就有出現過類似的問題，google了老半天找不到堪用的解法，原先以為是Ruby在windows上的lib不夠成熟，久試未果，只好暫時放棄Ruby。</p>
+
+<p>沒想到，最近開始用Python，發覺也有類似的問題，後來在stackoverflow上，找到了問題的所在，總歸是Windows的問題，但幸好回答問題的人有附上他對windows terminal的hack，用了這個解法之後，可以讓Python在Windows下正確無誤顯示utf8字元。</p>
+
+<!-- more -->
+
+
+<p>以下引用自StackOverflow的<a href="http://stackoverflow.com/questions/3789924/python-os-walk-and-japanese-filename-crash">這篇回答</a></p>
+
+<blockquote><p>It seems like all answers so far are from Unix people who assume the Windows console is like a Unix terminal, which it is not.</p>
+
+<p>The problem is that you can't write Unicode output to the Windows console using the normal underlying file I/O functions. The Windows API WriteConsole needs to be used. Python should probably be doing this transparently, but it isn't.</p>
+
+<p>There's a different problem if you redirect the output to a file: Windows text files are historically in the ANSI codepage, not Unicode. You can fairly safely write UTF-8 to text files in Windows these days, but Python doesn't do that by default.</p>
+
+<p>I think it should do these things, but here's some code to make it happen. You don't have to worry about the details if you don't want to; just call ConsoleFile.wrap_standard_handles(). You do need PyWin installed to get access to the necessary APIs.</p></blockquote>
+
+<p>這篇文章中也附上了他的解法，把它貼到程式裡面，並執行<code>ConsoleFile.wrap_standard_handles()</code>，就會幫你修正好摟。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">win32api</span><span class="o">,</span> <span class="nn">win32console</span><span class="o">,</span> <span class="nn">pywintypes</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">change_file_encoding</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">encoding</span><span class="p">):</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">TextIOWrapper is missing a way to change the file encoding, so we have to</span>
+</span><span class='line'><span class="sd">do it by creating a new one.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">errors</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">errors</span>
+</span><span class='line'><span class="n">line_buffering</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">line_buffering</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">f</span><span class="o">.</span><span class="n">newlines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">the</span> <span class="n">same</span> <span class="k">as</span> <span class="n">the</span> <span class="n">newline</span> <span class="n">parameter</span> <span class="n">to</span> <span class="n">TextIOWrapper</span><span class="o">.&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">newlines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">newlines</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">buf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">TextIOWrapper</span> <span class="n">defaults</span> <span class="n">newline</span> <span class="n">to</span> \<span class="n">r</span>\<span class="n">n</span> <span class="n">on</span> <span class="n">Windows</span><span class="p">,</span> <span class="n">even</span> <span class="n">though</span> <span class="n">the</span> <span class="n">underlying</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="nb">file</span> <span class="nb">object</span> <span class="ow">is</span> <span class="n">already</span> <span class="n">doing</span> <span class="n">that</span> <span class="k">for</span> <span class="n">us</span><span class="o">.</span>  <span class="n">We</span> <span class="n">need</span> <span class="n">to</span> <span class="n">explicitly</span> <span class="n">say</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span> <span class="n">to</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">make</span> <span class="n">sure</span> <span class="n">we</span> <span class="n">don</span><span class="s">&#39;t output </span><span class="se">\r\r\n</span><span class="s">; this is the same as the internal function&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">create_stdio</span><span class="o">.&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">TextIOWrapper</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">line_buffering</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">ConsoleFile</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">FileNotConsole</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">handle</span> <span class="o">=</span> <span class="n">win32api</span><span class="o">.</span><span class="n">GetStdHandle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">win32console</span><span class="o">.</span><span class="n">PyConsoleScreenBufferType</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">GetConsoleMode</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">except</span> <span class="n">pywintypes</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">WriteConsole</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">isatty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">True</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@staticmethod</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">wrap_standard_handles</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># There seems to be no binding for _get_osfhandle.</span>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">ConsoleFile</span><span class="p">(</span><span class="n">win32api</span><span class="o">.</span><span class="n">STD_OUTPUT_HANDLE</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">change_file_encoding</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">ConsoleFile</span><span class="p">(</span><span class="n">win32api</span><span class="o">.</span><span class="n">STD_ERROR_HANDLE</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="n">ConsoleFile</span><span class="o">.</span><span class="n">FileNotConsole</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">change_file_encoding</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">ConsoleFile</span><span class="o">.</span><span class="n">wrap_standard_handles</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>要注意的是，使用這個hack之前，必須先裝<a href="http://stackoverflow.com/questions/3789924/python-os-walk-and-japanese-filename-crash">pywin32</a>，在此篇文章撰寫時，最新版本是Build 217，請依照你的windows版本以及Python版本下載合適的檔案，我第一次安裝到一半卡住，最後才發現原來我以前在裝Python的時候，不小心在64位元的win7上裝了32位元版的Python</p>
+
+<p>另，這段hack的開頭的<code>import os, sys, io, win32api, win32console, pywintypes</code>跟結束的<code>ConsoleFile.wrap_standard_handles()</code>，我建議可以把它包進判斷作業系統的判斷式內，有助於我們撰寫跨平台的Python程式</p>
+
+<pre><code>if sys.platform == "win32":
+    import os, sys, io, win32api, win32console, pywintypes
+</code></pre>
+
+<p>以及</p>
+
+<pre><code>if sys.platform == "win32":
+    ConsoleFile.wrap_standard_handles()
+</code></pre>
+
+<p>以上，Enjoy your Python programming :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在Windows下建立GNU編譯環境]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial/"/>
+    <updated>2012-04-06T18:17:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/windows-gnu-tutorial</id>
+    <content type="html"><![CDATA[<p>這是一篇如何在windows下編譯C/C++程式的教學，這篇教學會教你怎樣在windows下搭起gcc compiler 以及 gnu make，這兩個在linux下寫程式不可或缺的工具，雖說比起Dev-C等無腦工具來說，建立gnu環境是麻煩了些，可是這套工具在linux下同樣適用，提早學習的話，到時候寫程式環境若是換到linux下就不用另外從頭學起摟。</p>
+
+<!-- more -->
+
+
+<h1>在Windows下建立GNU編譯環境</h1>
+
+<h2>0.懶人包</h2>
+
+<p>適合懶得google抓檔案的人</p>
+
+<p>mingw + make for windows 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/win_gnu.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>Sublime for windows x64 懶人包： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/sublime2181_x64.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>makefile 範例程式： <a href="https://sites.google.com/a/eruru.tw/pg/ruan-ti/learn_makefile.rar?attredirects=0&amp;d=1">點我下載</a></p>
+
+<p>這個範例程式裡面有一個makefile簡單的範例，如果不知道makefile長怎樣的話，可以抓回去研究看看</p>
+
+<h2>1. 安裝mingw</h2>
+
+<p>關鍵字：<code>mingw-get-inst</code> 用google搜一下，抓最新的回來安裝就好</p>
+
+<p>安裝的過程中遇到這個畫面的時候，記得把C++編譯器打勾</p>
+
+<h2>2. 安裝make for windows</h2>
+
+<p>關鍵字：<code>make for windows</code>，一樣是抓新版的回來裝</p>
+
+<h2>3.修改環境變數</h2>
+
+<p><code>開始</code> >> <code>我的電腦</code>按右鍵 >> <code>內容</code> >> <code>進階系統設定</code></p>
+
+<p>切換到<code>進階</code>分頁 >> <code>環境變數</code></p>
+
+<p>在<code>Path</code>變數加入以下兩組路徑，路徑之間記得用<code>;</code>(分號)隔開</p>
+
+<p><code>C:\MinGW\bin</code></p>
+
+<p><code>C:\Program Files (x86)\GnuWin32\bin</code></p>
+
+<h2>4.安裝sublime </h2>
+
+<p>google <code>sublime</code>，一樣是挑新版回來抓就好摟</p>
+
+<h2>5.如何編譯程式</h2>
+
+<p>在命令列的環境下，打<code>g++ -o filename.exe filename.cpp</code></p>
+
+<p>就會把filename.cpp編譯成 filename.exe</p>
+
+<h2>6.建立命令列的捷徑 (選擇性步驟)</h2>
+
+<p>由於編譯以及測試會大量的使用到命令列模式，因此建議你在工作目錄下面弄一個開啟命令列的捷徑，方法如下</p>
+
+<p>6.1 開啟文字編輯器，輸入<code>cmd</code>這三個字</p>
+
+<p>6.2 把這個檔案存在你的工作目錄下，檔名為<code>a.bat</code></p>
+
+<p>6.3 以後直接打開<code>a.bat</code>這個檔案就可以進入命令列模式</p>
+
+<h1>撰寫makefile</h1>
+
+<p>makefile簡單的說，就是一個編譯指令的懶人包，</p>
+
+<p>試想，若我們有一天編譯一個專案，需要同時執行g++幾百次，在命令列下面慢慢打入這些指令很浪費時間且不切實際，而make就是把這些編譯過程中所需要用到的指令紀錄在一個makefile檔上，讓我們打下對應的目標時，就幫助我們執行一大段指令，減低我們編譯時的負擔</p>
+
+<p>實際上makefile的存在是為了降低大型專案裡面重編譯系統的時間，一個幾百萬行的專案，若是我們只修改其中部份的原始碼的話，可以利用make重新編譯裡面部份的程式碼並重新連結整個專案，可以大幅降低重新編譯專案的時間(可能是從幾個小時降低到幾分鐘的差距)，但這部份牽扯到許多相對複雜的細節，因此不在這篇教學的討論範圍內，想知道更詳細的內容可以自行google <code>makefile</code></p>
+
+<p>如何撰寫makefile又是另外一套學問...</p>
+
+<p>初學者有以下的概念即可</p>
+
+<blockquote><h3>當我們打下<code>make xxx</code>指令的時候，make會搜尋該目錄下是否有取名為makefile的檔案，若有的話，會尋找makefile內有沒有xxx規則，若有的話將會依照該規則所指定的指令進行編譯，若沒有的話會回報錯誤</h3>
+
+<h3>當我們打make時沒有指定目標規則的時候，make預設會執行makefile的第一條規則</h3></blockquote>
+
+<h2>1.建立新資料夾</h2>
+
+<p>因為在同一個資料夾下的檔案會共用同樣的makefile   <br/>
+所以養成良好習慣，同一個資料夾下放同一個專案</p>
+
+<h2>2.在該資料夾下建立檔案makefile</h2>
+
+<p>開啟文字編輯器編輯一個新的純文字檔案，檔名取為<code>makefile</code>    <br/>
+檔案內容輸入</p>
+
+<pre><code>main: filename.cpp
+    g++ -o filename.exe filename.cpp
+</code></pre>
+
+<p>（filename請自行替換成目標的程式原始檔檔名）</p>
+
+<p>存檔即可</p>
+
+<h2>3. 利用make 進行編譯</h2>
+
+<p>makefile建立完之後，在該目錄下打入<code>make main</code>，就可以根據main這條我們自行定義的規則進行編譯摟，當然，我們打<code>make</code>也可，由於我們直接打<code>make</code>的時候，make會根據makefile裡面的第一條規則進行處理，在這個範例中，第一條規則是main，所以我們執行<code>make</code>時就等同於<code>make main</code>摟</p>
+
+<h2>4.利用sublime的編譯系統進行make</h2>
+
+<p>在sublime下，可以利用ctrl+B這個快捷鍵直接呼叫make替我們編譯，如果ctrl+B並沒有正確的呼叫make的話，檢查一下</p>
+
+<h3>sublime是否開啟正確的檔案</h3>
+
+<p>還記得嗎，同一個目錄下會共用同一個makefile，而sublime呼叫make時給的makefile是以<strong>此時正在編譯的檔案</strong>為準</p>
+
+<h3>sublime是否指定了<code>make</code>為目標的編譯系統</h3>
+
+<p>在<code>Tools</code> >> <code>Build System</code> 裡面，指定<code>Make</code>即可</p>
+
+<h1>寫在最後</h1>
+
+<p>由於每個人的環境不盡相同，而對於初學者來說，第一次建立gnu compiler環境也確實有他的難度在，因此如果你在安裝上有出任何問題，又或者是認為這份教學有哪邊你覺得很難懂的，歡迎留言，我會在時間允許的範圍下盡力改進這份教學以及在我能力範圍內回答你的問題</p>
+]]></content>
+  </entry>
+  
+</feed>

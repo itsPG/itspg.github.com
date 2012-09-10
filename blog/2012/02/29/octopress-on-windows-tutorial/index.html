@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>[教學] 在windows上安裝octopress 新手教學 / 初學者指南 - itsPG.org</title>
+  <meta name="author" content="PG">
+
+  
+  <meta name="description" content="以下是今天測試過，確定可以順利安裝octopress並成功發佈到github的流程，octopress安裝過程繁複，上手不易，希望這篇簡單的教學可以幫助第一次使用octopress的人順利架起環境。 另，在依照這篇教學一步一步操作之前，請先確定 你的windows已經安裝完git &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="itsPG.org" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30005661-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">itsPG.org</a></h1>
+  
+    <h2>PG @ NCTU SenseLab</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:itsPG.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">[教學] 在windows上安裝octopress 新手教學 / 初學者指南</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-29T19:39:00+08:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>以下是今天測試過，確定可以順利安裝octopress並成功發佈到github的流程，octopress安裝過程繁複，上手不易，希望這篇簡單的教學可以幫助第一次使用octopress的人順利架起環境。</p>
+
+<p>另，在依照這篇教學一步一步操作之前，請先確定</p>
+
+<ul>
+<li>你的windows已經安裝完git</li>
+<li>你已經有一個github的帳號</li>
+<li>已經擁有&#8221;username.github.com&#8221;這個repo</li>
+</ul>
+
+
+<p>關於這部份的教學可以google &#8220;github page&#8221;，或者是參考我寫的<a href="http://itspg.github.com/blog/2012/02/29/github-on-windows-tutorial/">這篇教學</a>在這邊就不再贅述了。</p>
+
+<!-- more -->
+
+
+<h2>1.安裝ruby環境</h2>
+
+<p>在<a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a> 中，下載RubyInstaller 1.9.2-p290這個版本並安裝</p>
+
+<h2>2.安裝ruby的Devkit</h2>
+
+<h3>2.1 在同樣的頁面，找到Development Kit，下載並解壓縮</h3>
+
+<h3>2.2 進入剛剛解壓縮的資料夾，打入以下指令</h3>
+
+<pre><code>ruby dk.rb init
+ruby dk.rb install
+</code></pre>
+
+<p>以下步驟開始請從開始功能表中的 &#8220;Start Command Prompt with Ruby&#8221; 的環境下進行</p>
+
+<h2>3.更新gem</h2>
+
+<pre><code>gem update --system
+</code></pre>
+
+<h2>4.抓取octopress原始碼並安裝</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+</code></pre>
+
+<h2>5.設定github相關的deploy設定</h2>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>這時候他會問你github上ssh的路徑，一般來說長得像是這樣</p>
+
+<p><code>git@github.com:rixia/rixia.github.com.git</code></p>
+
+<p>rixia請自行代換成你的使用者名稱</p>
+
+<h2>6.編輯_config.yml</h2>
+
+<p>這個檔案是Blog的相關設定，打開後可以依照需要自行修改，懶的改的話跳過這個步驟也可</p>
+
+<h2>7.建立新文章</h2>
+
+<pre><code>rake new_post["this is the title"]
+</code></pre>
+
+<p>打完指令後在_posts下就會出現該篇文章，可以自己打開來修改並加入內容</p>
+
+<h2>8.發佈</h2>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<p>打完以上指令之後就會把內容編譯後上傳到github上<br/>
+在上傳到github前，你也可以用<code>rake preview</code>指令，觀看預覽<br/>
+預覽結果會出現在<code>http://127.0.0.1:4000</code></p>
+
+<h2>如果在<code>rake generate</code>時出錯</h2>
+
+<p>這是Jekyll編譯原始碼的時候遇到UTF-8會發生的編碼問題<br/>
+解決方法如下：在<code>rake generate</code>之前先打入以下指令</p>
+
+<pre><code>set LC_ALL=zh_TW.UTF-8
+set LANG=zh_TW.UTF-8
+</code></pre>
+
+<p>即可解決問題</p>
+
+<h1>結尾</h1>
+
+<p>最簡單的安裝教學大致上就是這樣。</p>
+
+<p>剩下進一步的操作，<a href="http://octopress.org/docs/">官方文件</a>上面解說的算詳盡，可以參考看看</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">PG</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-29T19:39:00+08:00" pubdate data-updated="true">Feb 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/教學/'>教學</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/" data-via="" data-counturl="http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/29/github-on-windows-tutorial/" title="Previous Post: [教學] 在windows上使用github 新手教學 / 初學者指南">&laquo; [教學] 在windows上使用github 新手教學 / 初學者指南</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/04/css3/" title="Next Post: [筆記] CSS3圓角 & CSS3動畫">[筆記] CSS3圓角 & CSS3動畫 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/freebsd9-dot-0-install-note/">FreeBSD 9.0 快速安裝教學 （上）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/13/use-python3-to-login-http-web/">[程設] Use http.cookiejar and urllib.request to POST login http webpage in Python 3.2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/22/auto-anime-list-creator/">[作品] 多檔案index.html自動產生工具 v0.4</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/21/python-utf8-fix-for-windows-terminal/">[程設] Python 3.2 在windows下的UTF8解決方案，解決can't decode以及亂碼的問題</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/21/alter-charlotte-dunois/">[開箱] Alter 夏綠蒂 運動夾克ver （シャルロット・デュノア　ジャージVer.）</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/blog/categories/acgn' style='font-size: 112.0%'>Acgn(1)</a>  <a href='/blog/categories/figure' style='font-size: 112.0%'>Figure(1)</a>  <a href='/blog/categories/freebsd' style='font-size: 124.0%'>Freebsd(2)</a>  <a href='/blog/categories/git' style='font-size: 124.0%'>Git(2)</a>  <a href='/blog/categories/kindle' style='font-size: 112.0%'>Kindle(1)</a>  <a href='/blog/categories/mac' style='font-size: 136.0%'>Mac(3)</a>  <a href='/blog/categories/octopress' style='font-size: 136.0%'>Octopress(3)</a>  <a href='/blog/categories/python' style='font-size: 136.0%'>Python(3)</a>  <a href='/blog/categories/root' style='font-size: 112.0%'>Root(1)</a>  <a href='/blog/categories/ruby' style='font-size: 112.0%'>Ruby(1)</a>  <a href='/blog/categories/webdesign' style='font-size: 112.0%'>Webdesign(1)</a>  <a href='/blog/categories/教學' style='font-size: 160.0%'>教學(5)</a>  <a href='/blog/categories/程式作品' style='font-size: 112.0%'>程式作品(1)</a>  <a href='/blog/categories/程設' style='font-size: 124.0%'>程設(2)</a>  <a href='/blog/categories/筆記' style='font-size: 112.0%'>筆記(1)</a>  <a href='/blog/categories/網管' style='font-size: 112.0%'>網管(1)</a>  <a href='/blog/categories/網管筆記' style='font-size: 112.0%'>網管筆記(1)</a>  <a href='/blog/categories/網管筆記-' style='font-size: 112.0%'>網管筆記,(1)</a>  <a href='/blog/categories/軟體' style='font-size: 112.0%'>軟體(1)</a>  <a href='/blog/categories/開箱' style='font-size: 160.0%'>開箱(5)</a>  <a href='/blog/categories/閒聊' style='font-size: 112.0%'>閒聊(1)</a>  <a href='/blog/categories/閒聊-軟體' style='font-size: 112.0%'>閒聊,軟體(1)</a>  <a href='/blog/categories/雪泥鴻爪' style='font-size: 112.0%'>雪泥鴻爪(1)</a> </span>
+</section>
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - PG -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itspgitspg';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/';
+        var disqus_url = 'http://itsPG.github.com/blog/2012/02/29/octopress-on-windows-tutorial/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: kindle | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/kindle/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在mac上root kindle fire (6.2.1 / 6.2.2 / 6.2.3)]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/root-kindle-fire-on-mac/"/>
+    <updated>2012-04-06T15:34:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/root-kindle-fire-on-mac</id>
+    <content type="html"><![CDATA[<p>會想用mac root kindle fire，是因為不知道是我人品太差還是我windows桌機的環境太髒，我在windows上找了五六篇教學嘗試root我手上的kindle fire (6.2.1)統統失敗，浪費了兩三個晚上在搞這台該死的機器實在是令人沮喪的事情，還好最後我發現mac上有人寫好了root的懶人包，抱著死馬當活馬醫的心態下去測最後總算成功root...
+<img src="http://farm6.staticflickr.com/5234/7049944597_46f45b74a0_b.jpg" alt="" /></p>
+
+<!-- more -->
+
+
+<p>網路上能找到的xx刷機懶人包（在我的電腦上）全部都是爛的，如果你抓完回來測發現你跟我一樣會root失敗的話，可以不用浪費時間去嘗試了，有時候我甚至會懷疑那些懶人包還附上代客改機的網址本身是不是一種暗黑兵法，讓你刷一刷沒刷好就直接找他改機（請原諒我有這種想法，因為我按照某懶人包下去操作連最基本的adb環境都架不起來，最後還是找國外論壇的教學才成功）</p>
+
+<p>後來在國外的網站找了好幾個版本的root程式，最接近成功的一個卡在某個root步驟裡面會沒有回應，無奈之下換個環境測試，找到了<a href="http://forum.xda-developers.com/showthread.php?t=1443071">這個網站</a>，利用他的程式，在我的MBA下成功root kindle fire 6.2.1</p>
+
+<p>由於我在操作過程中沒有把步驟記錄下來，所以在這邊我沒辦法詳細的寫出使用步驟，只能憑印象大概的把我的步驟寫出來，希望這些對想要root kindle fire的人有幫助。</p>
+
+<ol>
+<li><p>下載程式</p></li>
+<li><p>打開 BreakDroid</p></li>
+<li><p>先把android sdk環境裝起來 （install android SDK）</p></li>
+<li><p>進入kindle 選單 （kindle tools）</p></li>
+<li><p>進入自動root模式，依照畫面選單操作（Auto Root Kindle）</p></li>
+</ol>
+
+
+<p>在這些步驟裡面，會有多次要你對kindle重開機，請依照指示把kindle關掉後重開，等重開之後kindle螢幕出現黃色三角形之後，打yes繼續進行其餘步驟。其中有兩個步驟比較特別，一個會提示要等到red xxxxx畫面出現後才能打yes（詳細的訊息我沒有抄下來Orz），這時候在黃色三角形出現後多等一下，就會進入到有紅色標題，類似恢復畫面的文字介面，此時才能繼續打yes，另外一個就是倒數幾個步驟裡面，他會要求你等到kindle完全重新開機進入待機畫面之後才能打yes，原則上就是按照電腦螢幕上面的指示操作即可，每個步驟我自己是都不超過三分鐘。</p>
+
+<p>root完後，打開root explorer，如果root成功的話，此時螢幕上就會提示root explorer已經被賦予root權限，失敗的話螢幕就不會有任何提示。</p>
+
+<p>另外一個很重要的問題：</p>
+
+<h2>如何在kindle fire上安裝apk</h2>
+
+<p>這問題讓我卡很久，其他我碰過的android系統全部都可以直接用market安裝apk，唯獨kindle不行，而且kindle內建的amazon store連安裝免費的app都會要你帳號提供地址以及信用卡付款資料......</p>
+
+<h2>解決辦法：</h2>
+
+<p>1.先去設定中，把安裝第三方app的設定打開。</p>
+
+<p>2.隨便找個網頁空間，把你想安裝的apk丟上去。</p>
+
+<p>3.利用kindle fire內建的瀏覽器抓下來打開，就可以安裝摟。</p>
+]]></content>
+  </entry>
+  
+</feed>

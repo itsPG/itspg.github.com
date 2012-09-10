@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 網管 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/網管/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FreeBSD 9.0 快速安裝教學 （上）]]></title>
+    <link href="http://itsPG.github.com/blog/2012/08/24/freebsd9-dot-0-install-note/"/>
+    <updated>2012-08-24T23:27:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/08/24/freebsd9-dot-0-install-note</id>
+    <content type="html"><![CDATA[<p>之前安裝到一半的機器，一邊安裝軟體，一邊弄教學。結果機器堪用之後就懶得繼續裝了（遮臉）。</p>
+
+<p>在這邊分享一下我做的筆記</p>
+
+<!-- more -->
+
+
+<h2>1.先做FreeBSD的安全更新</h2>
+
+<p>freebsd-update fetch
+freebsd-update install</p>
+
+<h2>2.編輯<code>/etc/makefile.conf</code>，加入以下設定</h2>
+
+<pre><code>SUPHOST= cvsup.tw.freebsd.org
+SUP_UPDATE= yes
+SUP= /usr/bin/csup
+SUPFLAGS= -g -L 2
+SUPFILE= /usr/share/examples/cvsup/stable-supfile
+PORTSSUPFILE= /usr/share/examples/cvsup/ports-supfile
+</code></pre>
+
+<h2>3.更新ports tree</h2>
+
+<pre><code>cd /usr/ports
+make update
+</code></pre>
+
+<h2>4.編輯<code>/etc/rc.conf</code>，加入</h2>
+
+<pre><code>ntpdate_enable="YES"
+ntpdate_flags="clock.stdtime.gov.tw"
+sshd_enable="YES"
+usbd_enable="YES"
+smbftpd_enable="YES"
+smbftpd_flags="-D"
+mysql_enable="YES"
+apache22_enable="YES"
+snmpd_enable="YES"
+samba_enable="YES"
+rsyncd_enable="YES"
+named_enable="YES"
+</code></pre>
+
+<h2>5.安裝wget</h2>
+
+<pre><code>cd /usr/ports/ftp/wget
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>6.安裝smbftpd</h2>
+
+<pre><code>cd /tmp
+wget "http://twbsd.org/download/download.php?file=smbftpd/smbftpd-2.4.tar.gz"
+tar -zxvf download.php\?file=smbftpd%2Fsmbftpd-2.4.tar.gz
+cd smbftpd
+./configure
+make
+make install
+</code></pre>
+
+<h2>7.安裝Apache22</h2>
+
+<pre><code>cd /usr/ports/www/apache22
+make config-recursive
+make install clean
+</code></pre>
+
+<p>接下來改一下apache設定值
+<code>ee /usr/local/etc/apache22/httpd.conf</code></p>
+
+<h3>7.1 找到DirectoryIndex 加入對.php首頁的支援</h3>
+
+<p>DirectoryIndex index.php index.htm index.html</p>
+
+<h3>7.2 找到# Include etc/apache22/extra/httpd-userdir.conf</h3>
+
+<p>將前面的#號消掉,啟用家目錄功能</p>
+
+<h3>7.3 在檔案後面加上下面這兩行，啟動對PHP格式的支援</h3>
+
+<p>AddType application/x-httpd-php .php
+AddType application/x-httpd-php-source .phps</p>
+
+<h2>8.安裝PHP</h2>
+
+<pre><code>cd /usr/ports/lang/php5
+make config-recursive
+make install clean
+</code></pre>
+
+<p>此時必須勾選"Build Apache module"
+否則Apache會不認得.php副檔名</p>
+
+<h2>9.安裝PHP5外掛 (選擇性)</h2>
+
+<pre><code>cd /usr/ports/lang/php5-extensions
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>10.安裝MySQL server (會順便把client一起裝起來)</h2>
+
+<pre><code>cd /usr/ports/databases/mysql55-server/
+make config-recursive
+make install clean
+</code></pre>
+
+<h2>11.安裝phpMyAdmin</h2>
+
+<pre><code>cd /usr/ports/databases/phpmyadmin
+make install clean
+</code></pre>
+
+<h2>12.設定MySQL環境</h2>
+
+<h3>12.1. 啟動server</h3>
+
+<p>/usr/local/etc/rc.d/mysql-server restart</p>
+
+<h3>12.2. 連上mysql資料庫,更新root密碼,</h3>
+
+<p>/usr/local/bin/mysql mysql
+UPDATE user SET password=password(’123456789′) where user=’root’;</p>
+
+<h3>12.3. 重新啟動server</h3>
+
+<p>/usr/local/etc/rc.d/mysql-server start</p>
+
+<h3>12.4. 修改phpMyAdmin設定檔 – 伺服器部份</h3>
+
+<p>ee /usr/local/etc/apache22/httpd.conf
+增加 Alias /phpmyadmin/ “/usr/local/www/phpMyAdmin/"</p>
+
+<h3>12.5.修改phpMyAdmin設定檔 – 程式本身部份</h3>
+
+<p>cd /usr/local/www/phpMyAdmin
+cp ./libraries/config.default.php ./config.inc.php
+ee ./config.inc.php
+把 $cfg['Servers'][$i]['auth_type'] = ‘cookie’ ;
+改成 $cfg['Servers'][$i]['auth_type'] = ‘http’ ;</p>
+
+<h2>13. 安裝vim (需要較多時間)</h2>
+
+<p>第一次編譯到一半會失敗，估計是套件相依性沒設定好，
+編譯第二次就會過了</p>
+
+<pre><code>cd /usr/ports/editors/vim
+make config-recursive
+make install clean
+make install clean
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] 在 mac lion XCode 4.3的環境下編譯ruby]]></title>
+    <link href="http://itsPG.github.com/blog/2012/04/06/compile-ruby-on-mac-lion/"/>
+    <updated>2012-04-06T16:10:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/04/06/compile-ruby-on-mac-lion</id>
+    <content type="html"><![CDATA[<p>當打下<code>rvm install 1.9.2</code>指令的時候，會出現</p>
+
+<pre><code>The provided compiler '/usr/bin/gcc' is LLVM based, it is not yet fully supported by ruby and gems, please read `rvm requirements`.
+</code></pre>
+
+<p>簡單的說就是他不吃llvb-gcc，所以我們要想辦法生一個標準的gcc給rvm編譯ruby</p>
+
+<!-- more-->
+
+
+<p>解決方法可以很麻煩，也可以很簡單，比較好的作法是去抓gcc的原始碼回來自己編譯，但會花不少時間在編譯上面，如果有興趣的話，可以參考強者我同學（好吧其實只是社團的同學..）鴨七blog的<a href="http://blog.yorkxin.org/2012/03/09/ruby-192-with-xcode-43/">教學</a></p>
+
+<p>如果你跟我一樣懶的話，就抓別人包好的gcc回來用吧，我抓回來測試的結果是一切安好，可以正常執行</p>
+
+<h2><a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">別人包好的gcc</a></h2>
+
+<p>抓回來之後打開，直接安裝，安裝完之後不需要另外設定目錄之類的，直接<code>rvm install 1.9.2</code>重跑一次剛剛你失敗的安裝即可，唯一的差別是這次rvm能夠正常編譯ruby並順利完成安裝 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

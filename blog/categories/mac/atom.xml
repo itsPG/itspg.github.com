@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mac | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[Mac ] 讓Mac筆電闔上螢幕的時候不進入待命模式]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/disable-lid-sleep-on-mac/"/>
+    <updated>2012-05-21T03:03:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/disable-lid-sleep-on-mac</id>
+    <content type="html"><![CDATA[<p>每次我的MBA一關上螢幕，下次重開的時候都要重抓wifi實在是有點麻煩，尤其是我的學校（交大）上課時人多的時候校內無線網路ip會不夠分，需要等待個約莫五分鐘才能排到可用的ip，導致每次想要離開座位的時候都沒辦法完全闔上筆電，實在是不太方便，從mac的選單裡面找，卻又找不到ok的修改方式。</p>
+
+<p>還好有找到軟體可以解決關上螢幕電腦就會自動待命的問題。</p>
+
+<!-- more -->
+
+
+<p>軟體名稱：InsomniaX</p>
+
+<p>目前最新版本： 2.0.1</p>
+
+<p>下載位址：<a href="http://semaja2.net/archives/221">點我</a></p>
+
+<p>在這個版本中，選擇『只有在插上電源時才關閉待命功能』的功能以及他的類似功能是壞的，也就是說，所有的設定都必須自己手動調整，關閉待命之後，記得在有需要的時候調回來，要不然習慣性的關閉螢幕當做待命，卻忘記自己有開這套程式，那就悲劇了。</p>
+
+<p>不過，<span style='color:red;'>即使打開這個程式，闔上螢幕的時候也會自動關閉顯示器電源</span>，所以不用每次闔上蓋子的時候都要手動關閉顯示器啦。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[Mac] 關於Mac的螢幕截圖 (printscreen)]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/21/printscreen-in-mac/"/>
+    <updated>2012-05-21T02:47:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/21/printscreen-in-mac</id>
+    <content type="html"><![CDATA[<p>這篇筆記了一下怎樣在Mac裡面截圖，以及在mac bootcamp的windows下，怎樣擷取windows下的圖片</p>
+
+<!-- more -->
+
+
+<h1>1. On Mac</h1>
+
+<h2>Shift + Command + 3 </h2>
+
+<p>擷取整個畫面</p>
+
+<h2>Shift + Command + 4</h2>
+
+<p>利用滑鼠圈選擷取範圍</p>
+
+<h2>Shift + Command + Space + 4</h2>
+
+<p>擷取指定視窗</p>
+
+<h1>2. On Windows</h1>
+
+<h2>Fn + Shift + F11</h2>
+
+<p>擷取整個營幕畫面(等同於printscreen)</p>
+
+<h2>Fn + Shift + Alt + F11</h2>
+
+<p>可以擷取正在使用中的視窗畫面(等同於Alt + printscreen)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在Mac Book AIR 11mid 上，製作Lion安裝隨身碟 / MBA 還原隨身碟]]></title>
+    <link href="http://itsPG.github.com/blog/2012/05/10/lion-recovery-usb-from-mba11/"/>
+    <updated>2012-05-10T15:04:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/05/10/lion-recovery-usb-from-mba11</id>
+    <content type="html"><![CDATA[<p>這版的MBA取消了以往慣例上會附贈的精美還原隨身碟，改用復原磁區上的系統自動從網站上抓取安裝檔進行重灌，所以每次想要重灌Mac的時候，都要花一兩個小時下載將近4G的安裝檔，對於網路速度不快的人來說無疑是個惡夢。</p>
+
+<p>這篇教學主要是教你怎樣利用MBA復原磁區上的程式抓取安裝檔，以及另外備份安裝檔，以後重灌的時候就不用每次都要另外抓安裝程式。</p>
+
+<!-- more -->
+
+
+<p>這整篇的原理是</p>
+
+<h2>在Lion下，打開安裝程式，把Lion安裝到另外一個目標硬碟，在下載完安裝用映像檔後，實際安裝之前，將安裝程式中斷
+</h2>
+
+
+<p>由於Lion安裝完後就會把安裝檔刪除，所以我們只能用這個方法取得刪除前的安裝程式。</p>
+
+<h2>step 1.</h2>
+
+<p>首先，請先準備一個可以安裝Lion的隨身硬碟（或是隨身碟），容量必須能夠裝下Lion的安裝檔以及Lion本身，所以容量最好有16G以上。</p>
+
+<h2>step 2.</h2>
+
+<p>打開工具程式裡面的磁碟管理工具，將隨身碟格式化成mac的檔案系統
+<img src="http://farm8.staticflickr.com/7228/7170064012_622ebd55cf_z.jpg" alt="" /></p>
+
+<h2>step 3.</h2>
+
+<p>打開終端機，輸入</p>
+
+<pre><code>diskutil mount readOnly /dev/disk0s3
+hdiutil attach "/Volumes/Recovery HD/com.apple.recovery.boot/BaseSystem.dmg"
+</code></pre>
+
+<p>第一個指令是把隱藏磁區掛載起來，第二個指令是把隱藏的復原程式dmg檔掛載起來</p>
+
+<p><img src="http://farm8.staticflickr.com/7087/7170063888_0a0e0701fa_z.jpg" alt="" /></p>
+
+<h2>step 4.</h2>
+
+<p>在Finder裡面打開<code>Mac OS X Base System</code>裡面的Lion安裝程式，在安裝選擇磁碟的時候，<strong>記得將安裝目標設定為隨身硬碟或是隨身碟</strong>，如此才能將安裝程式下載到隨身碟上。
+<img src="http://farm6.staticflickr.com/5279/7170064158_48a53ca45b_z.jpg" alt="" />
+<img src="http://farm9.staticflickr.com/8001/7170063678_68f4af3cbe_z.jpg" alt="" />
+<img src="http://farm8.staticflickr.com/7228/7170063752_02dc765183_z.jpg" alt="" /></p>
+
+<p>接下來會開始下載安裝Lion的映像檔。</p>
+
+<h2>step 5.</h2>
+
+<p>下載倒數到零之後，mac會花一段時間驗證下載的檔案是否正確，驗證完之後會進入自動重開機的倒數。在倒數的時候，在畫面上點一下可以暫停讀秒，改為手動重新開機，如果怕來不及的話，<strong>可以隨便先打開一個關閉之前會確認是否要存檔的程式</strong>（例如說，打開word，隨便打一些字，如此在系統自動重開機之前就會問你要不要存檔），如此可以中斷自動重新開機的流程。
+<img src="http://farm8.staticflickr.com/7211/7170064456_0bb7eab226_z.jpg" alt="" />
+<img src="http://farm8.staticflickr.com/7211/7170064720_dd749bdc56_z.jpg" alt="" />
+<strong>在finder中，卸載磁碟機後把隨身碟拔除，然後按下<code>cmd+q</code>離開安裝程式</strong></p>
+
+<p>許多人會在這步驟失敗，是因為忘記先把隨身碟拔起來就急著離開Lion的安裝程式。</p>
+
+<h2>step 6.</h2>
+
+<p>重新插上隨身碟，裡面的<code>Mac OS X Install Data</code>就是我們要的東西摟</p>
+
+<p><img src="http://farm9.staticflickr.com/8001/7170063570_c5a74135f6_z.jpg" alt="" /></p>
+]]></content>
+  </entry>
+  
+</feed>

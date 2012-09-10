@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2012-09-10T13:48:27+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[教學] 在windows上使用github 新手教學 / 初學者指南]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/29/github-on-windows-tutorial/"/>
+    <updated>2012-02-29T19:12:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/29/github-on-windows-tutorial</id>
+    <content type="html"><![CDATA[<p>這篇文章的定位是補齊github在windows上文件的缺乏，希望第一次用git / github的人，也可以依照這份文件來快速上手，另，由於git博大精深，不可能將所有的功能一一介紹，因此這份教學著重於設定好最基本的git環境，以及能夠達到最基本的git commit / git push功能，希望這樣的文章編排可以盡量降低初學者上手的門檻。</p>
+
+<!-- more -->
+
+
+<h1>github 基礎設定</h1>
+
+<h2>1. 註冊github</h2>
+
+<p>網址在這邊：<a href="https://github.com/">https://github.com/</a></p>
+
+<h2>2. 安裝Windows版的 git</h2>
+
+<p>請使用支援UTF-8檔名的windows版 git
+<img src="http://farm8.staticflickr.com/7180/6794683516_34849d52ca_z.jpg" alt="" /></p>
+
+<p><a href="http://code.google.com/p/utf8-git-on-windows/downloads/list">git下載位址</a></p>
+
+<h2>3. 為此台電腦建立識別金鑰</h2>
+
+<p>這步驟比較麻煩，尤其是對於沒摸過Unix / Linux系列的人來說更是如此...</p>
+
+<h3>3.1 建立金鑰對</h3>
+
+<p>從開始功能表裡面打開git bash
+<img src="http://farm8.staticflickr.com/7208/6794683530_3cfcb2c779.jpg" alt="" /></p>
+
+<p>打入以下指令，產生一把識別電腦用的金鑰<br/>
+ssh-keygen -t rsa -C "rixia@miko.tw"<br/>
+打完指令之後程式會詢問金鑰存放位址，直接按Enter採用預設值即可<br/>
+接下來詢問是否使用密碼，若在此步驟中填入密碼，則以後每次使用github上傳程式碼的時候都必須打上此組密碼<br/>
+如果不想每次傳檔都打密碼的話，就留白直接Enter吧</p>
+
+<p>再次確認密碼，沒密碼的話直接Enter，有密碼的話打完密碼按Enter</p>
+
+<h3>3.2 複製公開金鑰</h3>
+
+<p>用記事本打開 <code>C:\Users\你的使用者名稱\.ssh\id_rsa.pub</code> 這個檔案 把裡面的內容複製下來</p>
+
+<h3>3.3 填入金鑰</h3>
+
+<p>在設定畫面中的SSH keys裡面，把剛剛複製到的公開金鑰貼上去
+<img src="http://farm8.staticflickr.com/7205/6794683546_94d1ba817a_b.jpg" alt="" /></p>
+
+<h2>4. 設定使用者名稱以及郵件位址</h2>
+
+<p>當你上傳程式碼的時候，會用這些資訊來辨識是誰上傳的</p>
+
+<p>開啟命令列視窗(win+r>cmd，或是開始>執行>cmd)，打入以下兩行指令<br/>
+git config --global user.name "Your Name"<br/>
+git config --global user.email rixia@miko.tw</p>
+
+<p>如果電腦重灌或者是換到新電腦上的話，重複步驟2～4即可</p>
+
+<h1>github 建立新的Repository</h1>
+
+<p>Repository就是倉庫，我們待會要拿來存code的地方..</p>
+
+<p>個人首頁這邊點下去就對了
+<img src="http://farm8.staticflickr.com/7055/6794683500_869905404d_b.jpg" alt="" /></p>
+
+<p>基本資料輸入完之後，會出現一連串的指令教你怎樣建立本地端的repository並設定好遠端的repository<br/>
+除了第四個指令'touch README'以外，都可以照作，以下稍微解釋一下每個步驟在幹麼</p>
+
+<p><img src="http://farm8.staticflickr.com/7060/6940795989_b9da5a018f_b.jpg" alt="" /></p>
+
+<ol>
+<li><p><code>mkdir Hello-github</code></p></li>
+<li><p><code>cd Hello-github</code></p></li>
+<li><p><code>git init</code>
+初始化本地的repository</p></li>
+<li><p>在此目錄下建立一個README.txt檔案<br/>
+開記事本隨便存一個空白檔案就好</p></li>
+<li><p><code>git add README.txt</code>
+追蹤README.txt這個檔案</p></li>
+<li><p><code>git commit -m 'first commit'</code><br/>
+提交一份commit到本地的repository(first commit是註解，可替換成你要的文字)</p></li>
+<li><p><code>git remote add origin git@github.com:rixia/Hello-github.git</code><br/>
+加入遠端repository</p></li>
+<li><p>git push -u origin master<br/>
+設定遠端的對應關係</p></li>
+</ol>
+
+
+<h1>接下來呢？</h1>
+
+<p>你可以在這個目錄下隨意建立一些原始碼
+利用<code>git add filename</code>追蹤它
+利用<code>git commit -am "MSG"</code>提交一份commit到本地端
+利用<code>git push</code>將本地端的修改同步到伺服器上</p>
+
+<p>舉例來說，假設我寫了一個新的程式原始檔名叫做a.cpp<br/>
+具體流程來說像是這個樣子</p>
+
+<ol>
+<li><p><code>git add a.cpp</code> 代表我們開始追蹤a.cpp這個檔案</p></li>
+<li><p>對a.cpp中做一些修改</p></li>
+<li><p><code>git commit -am "some message"</code> 將修改的快照保存下來</p></li>
+<li><p>重複步驟2 步驟3 直到你滿意為止</p></li>
+<li><p><code>git push</code> 將修改結果上傳到github上</p></li>
+</ol>
+
+
+<h1>寫在最後</h1>
+
+<p>這篇所講到的功能不過是把程式碼修訂紀錄留下而已，git還有很多功能，用到熟練勢必需要投資大量的時間學習，但我們僅需最基本的幾個指令也能享受git給我們帶來的便利性。</p>
+
+<p>在這邊列出幾個我比較常用的指令，想進一步學習的話可以考慮從這邊入門</p>
+
+<p>這些是常用的branch相關的操作</p>
+
+<ul>
+<li>git checkout</li>
+<li>git branch</li>
+<li>git merge</li>
+</ul>
+
+
+<p>這些是常用的復原用操作</p>
+
+<ul>
+<li>git reflog</li>
+<li>git reset</li>
+<li>git revert</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[筆記] 在windows下使用git / github，解決中文檔名出錯 / 中文亂碼問題]]></title>
+    <link href="http://itsPG.github.com/blog/2012/02/15/windows-git/"/>
+    <updated>2012-02-15T15:43:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/02/15/windows-git</id>
+    <content type="html"><![CDATA[<p>標題故意打長一點，看有沒有辦法增加被google到的機會，因為一開始我google到改git設定檔的方法對我來說並不work，我後來又找了一下才發現，已經有人對git以及tortoise的程式碼進行修正，將git的存檔編碼改為utf-8</p>
+
+<!--more -->
+
+
+<p>在把以前的版本解除安裝，裝完<a href="http://www.cnblogs.com/tinyfish/archive/2011/01/17/1909463.html">修改過後的版本</a>後，重新開機就解決問題了</p>
+]]></content>
+  </entry>
+  
+</feed>
