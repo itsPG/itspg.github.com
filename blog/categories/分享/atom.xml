@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 分享 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/分享/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2013-01-13T18:29:13+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[分享] EcVps 5GB免費的架站空間 500GB流量 支援PHP MySQL]]></title>
+    <link href="http://itsPG.github.com/blog/2012/12/09/ecvps/"/>
+    <updated>2012-12-09T07:37:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/12/09/ecvps</id>
+    <content type="html"><![CDATA[<p>最近發現的好康，這年頭要找到免費的Free Website Hosting真的頗難，所以老實說我也不知道這個免費服務能夠活多久，最好抱持著掛掉正常，用到算賺到的心態下去使用會好過一點</p>
+
+<!-- more -->
+
+
+<p>網址： <strong><a href="http://www.ecvps.com/client/cart.php?gid=3">點此申請</a></strong></p>
+
+<p>申請完之後去信箱收信就會有帳號密碼摟，如果沒有域名可用的話申請的時候可以選擇使用他們提供的免費域名，而我手上的itsPG.org剛好沒地方擺，就先拿來當白老鼠了。</p>
+
+<p>實測的結果是網路速度偏慢，尤其是在FTP上傳資料的部份相當程度的考驗了架站的耐心，網頁瀏覽速度尚可，目前使用中，如果有後續的消息的話我會繼續更新這篇文章。</p>
+]]></content>
+  </entry>
+  
+</feed>

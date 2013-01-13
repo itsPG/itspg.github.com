@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | itsPG.org]]></title>
   <link href="http://itsPG.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://itsPG.github.com/"/>
-  <updated>2012-09-10T13:48:27+08:00</updated>
+  <updated>2013-01-13T18:29:13+08:00</updated>
   <id>http://itsPG.github.com/</id>
   <author>
     <name><![CDATA[PG]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[將github上的多筆commits合併成為一條commit]]></title>
+    <link href="http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/"/>
+    <updated>2013-01-13T17:25:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits</id>
+    <content type="html"><![CDATA[<p>翻修github上的README.md的時候，每更改一次都是一條新的commit，多修改幾次之後master就拉出長長的一條線，感覺不是很必要，這邊教你怎樣將遠端多筆commits強制合併為一條</p>
+
+<p>這個範例目前僅限於要合併的commits位於尾端，至於要怎樣整合中間的commits這個我現在git還不夠熟，不敢亂測...</p>
+
+<!-- more -->
+
+
+<p>** Step 1</p>
+
+<p><code>git branch squash</code> 先開一個新的分支來儲存我們目前master所做的修改」</p>
+
+<p>** Step 2</p>
+
+<p><code>git log</code> 看一下log檔，找出想要倒回去的時間點，以這個例子來說是154b5d</p>
+
+<pre><code>commit 154b5d78bcbab2b4513ba02c0104cf45422d6c8a
+Author: PG &lt;smartPG@gmail.com&gt;
+Date:   Fri Dec 7 15:08:18 2012 -0800
+
+    Initial commit
+</code></pre>
+
+<p>** Step 3</p>
+
+<p><code>git reset --hard 154b5d</code> 強制reset</p>
+
+<p>** Step 4</p>
+
+<p><code>git checkout squash</code> checkout之前儲存的分支</p>
+
+<p>** Step 5</p>
+
+<p><code>git rebase -i master</code> 將目前的squash分支接到master上</p>
+
+<p>** Step 5-1</p>
+
+<p>此時會叫出編輯器畫面顯示出squash分支與master領先的commits，讓你選擇如何合併commits，commits出現順序是從舊的到新的，也就是說最新的commit會出現在編輯器最下面</p>
+
+<pre><code>pick e5ca022 a
+pick 1e4fcd3 b
+pick 796bef9 c
+pick 7897670 d
+pick d0b99a9 e
+</code></pre>
+
+<p>將內容改成以下形式後，存檔離開</p>
+
+<pre><code>pick e5ca022 a
+s 1e4fcd3 b
+s 796bef9 c
+s 7897670 d
+pick d0b99a9 e
+</code></pre>
+
+<p>這代表我們要把commit b, c, d合併到commit a，完成合併之後僅會留下commit a與commit e</p>
+
+<p>** Step 5-2</p>
+
+<p>接下來會出現若干次編輯器畫面，讓你輸入修改後的commit訊息</p>
+
+<pre><code># This is a combination of 4 commits.
+# The first commit's message is:
+
+
+squash a~d test
+
+# This is the 2nd commit message:
+
+
+
+# This is the 3rd commit message:
+
+
+
+# This is the 4th commit message:
+</code></pre>
+
+<p>這邊主要是讓你看一下你選擇合併的commit記錄，並輸入新的commit 訊息，所有＃開頭的行並不會被算到commit訊息裡面</p>
+
+<p>我輸入squash a~d test並刪除多餘的訊息，合併就完成了</p>
+
+<p>** Step 6</p>
+
+<p><code>git checkout master</code> 回到master分支</p>
+
+<p>** Step 7</p>
+
+<p><code>git merge squash</code> 合併squash分支</p>
+
+<p>** Step 8</p>
+
+<p>git push --force origin master 強制更新遠端的master</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[[教學] 在windows上使用github 新手教學 / 初學者指南]]></title>

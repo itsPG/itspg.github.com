@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>將github上的多筆commits合併成為一條commit - itsPG.org</title>
+  <meta name="author" content="PG">
+
+  
+  <meta name="description" content="翻修github上的README.md的時候，每更改一次都是一條新的commit，多修改幾次之後master就拉出長長的一條線，感覺不是很必要，這邊教你怎樣將遠端多筆commits強制合併為一條 這個範例目前僅限於要合併的commits位於尾端， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="itsPG.org" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30005661-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">itsPG.org</a></h1>
+  
+    <h2>PG @ NCTU SenseLab</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:itsPG.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">將github上的多筆commits合併成為一條commit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T17:25:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>翻修github上的README.md的時候，每更改一次都是一條新的commit，多修改幾次之後master就拉出長長的一條線，感覺不是很必要，這邊教你怎樣將遠端多筆commits強制合併為一條</p>
+
+<p>這個範例目前僅限於要合併的commits位於尾端，至於要怎樣整合中間的commits這個我現在git還不夠熟，不敢亂測&#8230;</p>
+
+<!-- more -->
+
+
+<p>** Step 1</p>
+
+<p><code>git branch squash</code> 先開一個新的分支來儲存我們目前master所做的修改」</p>
+
+<p>** Step 2</p>
+
+<p><code>git log</code> 看一下log檔，找出想要倒回去的時間點，以這個例子來說是154b5d</p>
+
+<pre><code>commit 154b5d78bcbab2b4513ba02c0104cf45422d6c8a
+Author: PG &lt;smartPG@gmail.com&gt;
+Date:   Fri Dec 7 15:08:18 2012 -0800
+
+    Initial commit
+</code></pre>
+
+<p>** Step 3</p>
+
+<p><code>git reset --hard 154b5d</code> 強制reset</p>
+
+<p>** Step 4</p>
+
+<p><code>git checkout squash</code> checkout之前儲存的分支</p>
+
+<p>** Step 5</p>
+
+<p><code>git rebase -i master</code> 將目前的squash分支接到master上</p>
+
+<p>** Step 5-1</p>
+
+<p>此時會叫出編輯器畫面顯示出squash分支與master領先的commits，讓你選擇如何合併commits，commits出現順序是從舊的到新的，也就是說最新的commit會出現在編輯器最下面</p>
+
+<pre><code>pick e5ca022 a
+pick 1e4fcd3 b
+pick 796bef9 c
+pick 7897670 d
+pick d0b99a9 e
+</code></pre>
+
+<p>將內容改成以下形式後，存檔離開</p>
+
+<pre><code>pick e5ca022 a
+s 1e4fcd3 b
+s 796bef9 c
+s 7897670 d
+pick d0b99a9 e
+</code></pre>
+
+<p>這代表我們要把commit b, c, d合併到commit a，完成合併之後僅會留下commit a與commit e</p>
+
+<p>** Step 5-2</p>
+
+<p>接下來會出現若干次編輯器畫面，讓你輸入修改後的commit訊息</p>
+
+<pre><code># This is a combination of 4 commits.
+# The first commit's message is:
+
+
+squash a~d test
+
+# This is the 2nd commit message:
+
+
+
+# This is the 3rd commit message:
+
+
+
+# This is the 4th commit message:
+</code></pre>
+
+<p>這邊主要是讓你看一下你選擇合併的commit記錄，並輸入新的commit 訊息，所有＃開頭的行並不會被算到commit訊息裡面</p>
+
+<p>我輸入squash a~d test並刪除多餘的訊息，合併就完成了</p>
+
+<p>** Step 6</p>
+
+<p><code>git checkout master</code> 回到master分支</p>
+
+<p>** Step 7</p>
+
+<p><code>git merge squash</code> 合併squash分支</p>
+
+<p>** Step 8</p>
+
+<p>git push &#8211;force origin master 強制更新遠端的master</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">PG</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T17:25:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/" data-via="" data-counturl="http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/09/google-apps/" title="Previous Post: google apps">&laquo; google apps</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/13/git-memo/" title="Next Post: git memo">git memo &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-delete-remote-branch-slash-force-update/">git delete remote branch / force update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-memo/">git memo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-squash-master-commits/">將github上的多筆commits合併成為一條commit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/09/google-apps/">google apps</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/09/x10/">x10</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+<h1>分類</h1>
+<span class='categories_tag'> <a href='/blog/categories/acgn' style='font-size: 112.0%'>Acgn(1)</a>  <a href='/blog/categories/figure' style='font-size: 112.0%'>Figure(1)</a>  <a href='/blog/categories/freebsd' style='font-size: 124.0%'>Freebsd(2)</a>  <a href='/blog/categories/git' style='font-size: 136.0%'>Git(3)</a>  <a href='/blog/categories/kindle' style='font-size: 112.0%'>Kindle(1)</a>  <a href='/blog/categories/mac' style='font-size: 136.0%'>Mac(3)</a>  <a href='/blog/categories/octopress' style='font-size: 136.0%'>Octopress(3)</a>  <a href='/blog/categories/python' style='font-size: 136.0%'>Python(3)</a>  <a href='/blog/categories/root' style='font-size: 112.0%'>Root(1)</a>  <a href='/blog/categories/ruby' style='font-size: 112.0%'>Ruby(1)</a>  <a href='/blog/categories/webdesign' style='font-size: 112.0%'>Webdesign(1)</a>  <a href='/blog/categories/分享' style='font-size: 112.0%'>分享(1)</a>  <a href='/blog/categories/教學' style='font-size: 160.0%'>教學(5)</a>  <a href='/blog/categories/程式作品' style='font-size: 112.0%'>程式作品(1)</a>  <a href='/blog/categories/程設' style='font-size: 124.0%'>程設(2)</a>  <a href='/blog/categories/筆記' style='font-size: 112.0%'>筆記(1)</a>  <a href='/blog/categories/網管' style='font-size: 112.0%'>網管(1)</a>  <a href='/blog/categories/網管筆記' style='font-size: 112.0%'>網管筆記(1)</a>  <a href='/blog/categories/網管筆記-' style='font-size: 112.0%'>網管筆記,(1)</a>  <a href='/blog/categories/軟體' style='font-size: 112.0%'>軟體(1)</a>  <a href='/blog/categories/開箱' style='font-size: 160.0%'>開箱(5)</a>  <a href='/blog/categories/閒聊' style='font-size: 112.0%'>閒聊(1)</a>  <a href='/blog/categories/閒聊-軟體' style='font-size: 112.0%'>閒聊,軟體(1)</a>  <a href='/blog/categories/雪泥鴻爪' style='font-size: 112.0%'>雪泥鴻爪(1)</a> </span>
+</section>
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - PG -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itspgitspg';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/';
+        var disqus_url = 'http://itsPG.github.com/blog/2013/01/13/git-squash-master-commits/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
