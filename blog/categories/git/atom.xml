@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | itsPG.org]]></title>
   <link href="http://itsPG.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://itsPG.github.com/"/>
-  <updated>2013-01-13T18:29:13+08:00</updated>
+  <updated>2013-04-27T04:35:51+08:00</updated>
   <id>http://itsPG.github.com/</id>
   <author>
     <name><![CDATA[PG]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[git錯誤訊息 could not execute editor]]></title>
+    <link href="http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/"/>
+    <updated>2013-01-13T20:53:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor</id>
+    <content type="html"><![CDATA[<p>在git rebase的時候遇到了這樣的錯誤訊息</p>
+
+<p>Result: Could not execute editor</p>
+
+<p>解決方法如下</p>
+
+<p><code>git config --global core.editor "/usr/bin/vim"</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在git裡面取消commit / 強制pull到github / 刪除github branch]]></title>
+    <link href="http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update/"/>
+    <updated>2013-01-13T17:50:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update</id>
+    <content type="html"><![CDATA[<p>最近這三個指令我使用的比率有點高所以來筆記一下用法</p>
+
+<h2>在git裡面取消commit</h2>
+
+<p>使用時機：不小心手殘commit兩次的時候</p>
+
+<p><code>git reset HEAD@{1}</code></p>
+
+<h2>強制pull至github</h2>
+
+<p>使用時機：想要亂改遠端branch的時候</p>
+
+<p><code>git push --force origin master</code></p>
+
+<h2></h2>
+
+<p>使用時機：不想開網頁出來刪branch的時候</p>
+
+<p><code>git push origin --delete target_branch</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[將github上的多筆commits合併成為一條commit]]></title>
@@ -25,11 +67,11 @@
 <!-- more -->
 
 
-<p>** Step 1</p>
+<h2>Step 1</h2>
 
 <p><code>git branch squash</code> 先開一個新的分支來儲存我們目前master所做的修改」</p>
 
-<p>** Step 2</p>
+<h2>Step 2</h2>
 
 <p><code>git log</code> 看一下log檔，找出想要倒回去的時間點，以這個例子來說是154b5d</p>
 
@@ -40,19 +82,19 @@ Date:   Fri Dec 7 15:08:18 2012 -0800
     Initial commit
 </code></pre>
 
-<p>** Step 3</p>
+<h2>Step 3</h2>
 
 <p><code>git reset --hard 154b5d</code> 強制reset</p>
 
-<p>** Step 4</p>
+<h2>Step 4</h2>
 
 <p><code>git checkout squash</code> checkout之前儲存的分支</p>
 
-<p>** Step 5</p>
+<h2>Step 5</h2>
 
 <p><code>git rebase -i master</code> 將目前的squash分支接到master上</p>
 
-<p>** Step 5-1</p>
+<h2>Step 5-1</h2>
 
 <p>此時會叫出編輯器畫面顯示出squash分支與master領先的commits，讓你選擇如何合併commits，commits出現順序是從舊的到新的，也就是說最新的commit會出現在編輯器最下面</p>
 
@@ -74,7 +116,7 @@ pick d0b99a9 e
 
 <p>這代表我們要把commit b, c, d合併到commit a，完成合併之後僅會留下commit a與commit e</p>
 
-<p>** Step 5-2</p>
+<h2>Step 5-2</h2>
 
 <p>接下來會出現若干次編輯器畫面，讓你輸入修改後的commit訊息</p>
 
@@ -99,17 +141,17 @@ squash a~d test
 
 <p>我輸入squash a~d test並刪除多餘的訊息，合併就完成了</p>
 
-<p>** Step 6</p>
+<h2>Step 6</h2>
 
 <p><code>git checkout master</code> 回到master分支</p>
 
-<p>** Step 7</p>
+<h2>Step 7</h2>
 
 <p><code>git merge squash</code> 合併squash分支</p>
 
-<p>** Step 8</p>
+<h2>Step 8</h2>
 
-<p>git push --force origin master 強制更新遠端的master</p>
+<p><code>git push --force origin master</code> 強制更新遠端的master</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[itsPG.org]]></title>
   <link href="http://itsPG.github.com/atom.xml" rel="self"/>
   <link href="http://itsPG.github.com/"/>
-  <updated>2013-01-13T18:29:13+08:00</updated>
+  <updated>2013-04-27T04:35:51+08:00</updated>
   <id>http://itsPG.github.com/</id>
   <author>
     <name><![CDATA[PG]]></name>
@@ -14,20 +14,44 @@
 
   
   <entry>
-    <title type="html"><![CDATA[git delete remote branch / force update]]></title>
-    <link href="http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update/"/>
-    <updated>2013-01-13T17:50:00+08:00</updated>
-    <id>http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update</id>
-    <content type="html"><![CDATA[
+    <title type="html"><![CDATA[git錯誤訊息 could not execute editor]]></title>
+    <link href="http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/"/>
+    <updated>2013-01-13T20:53:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor</id>
+    <content type="html"><![CDATA[<p>在git rebase的時候遇到了這樣的錯誤訊息</p>
+
+<p>Result: Could not execute editor</p>
+
+<p>解決方法如下</p>
+
+<p><code>git config --global core.editor "/usr/bin/vim"</code></p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[git memo]]></title>
-    <link href="http://itsPG.github.com/blog/2013/01/13/git-memo/"/>
-    <updated>2013-01-13T17:42:00+08:00</updated>
-    <id>http://itsPG.github.com/blog/2013/01/13/git-memo</id>
-    <content type="html"><![CDATA[
+    <title type="html"><![CDATA[在git裡面取消commit / 強制pull到github / 刪除github branch]]></title>
+    <link href="http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update/"/>
+    <updated>2013-01-13T17:50:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2013/01/13/git-delete-remote-branch-slash-force-update</id>
+    <content type="html"><![CDATA[<p>最近這三個指令我使用的比率有點高所以來筆記一下用法</p>
+
+<h2>在git裡面取消commit</h2>
+
+<p>使用時機：不小心手殘commit兩次的時候</p>
+
+<p><code>git reset HEAD@{1}</code></p>
+
+<h2>強制pull至github</h2>
+
+<p>使用時機：想要亂改遠端branch的時候</p>
+
+<p><code>git push --force origin master</code></p>
+
+<h2></h2>
+
+<p>使用時機：不想開網頁出來刪branch的時候</p>
+
+<p><code>git push origin --delete target_branch</code></p>
 ]]></content>
   </entry>
   
@@ -43,11 +67,11 @@
 <!-- more -->
 
 
-<p>** Step 1</p>
+<h2>Step 1</h2>
 
 <p><code>git branch squash</code> 先開一個新的分支來儲存我們目前master所做的修改」</p>
 
-<p>** Step 2</p>
+<h2>Step 2</h2>
 
 <p><code>git log</code> 看一下log檔，找出想要倒回去的時間點，以這個例子來說是154b5d</p>
 
@@ -58,19 +82,19 @@ Date:   Fri Dec 7 15:08:18 2012 -0800
     Initial commit
 </code></pre>
 
-<p>** Step 3</p>
+<h2>Step 3</h2>
 
 <p><code>git reset --hard 154b5d</code> 強制reset</p>
 
-<p>** Step 4</p>
+<h2>Step 4</h2>
 
 <p><code>git checkout squash</code> checkout之前儲存的分支</p>
 
-<p>** Step 5</p>
+<h2>Step 5</h2>
 
 <p><code>git rebase -i master</code> 將目前的squash分支接到master上</p>
 
-<p>** Step 5-1</p>
+<h2>Step 5-1</h2>
 
 <p>此時會叫出編輯器畫面顯示出squash分支與master領先的commits，讓你選擇如何合併commits，commits出現順序是從舊的到新的，也就是說最新的commit會出現在編輯器最下面</p>
 
@@ -92,7 +116,7 @@ pick d0b99a9 e
 
 <p>這代表我們要把commit b, c, d合併到commit a，完成合併之後僅會留下commit a與commit e</p>
 
-<p>** Step 5-2</p>
+<h2>Step 5-2</h2>
 
 <p>接下來會出現若干次編輯器畫面，讓你輸入修改後的commit訊息</p>
 
@@ -117,26 +141,50 @@ squash a~d test
 
 <p>我輸入squash a~d test並刪除多餘的訊息，合併就完成了</p>
 
-<p>** Step 6</p>
+<h2>Step 6</h2>
 
 <p><code>git checkout master</code> 回到master分支</p>
 
-<p>** Step 7</p>
+<h2>Step 7</h2>
 
 <p><code>git merge squash</code> 合併squash分支</p>
 
-<p>** Step 8</p>
+<h2>Step 8</h2>
 
-<p>git push &#8211;force origin master 強制更新遠端的master</p>
+<p><code>git push --force origin master</code> 強制更新遠端的master</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[google apps]]></title>
+    <title type="html"><![CDATA[[架站] google apps終止免費服務]]></title>
     <link href="http://itsPG.github.com/blog/2012/12/09/google-apps/"/>
     <updated>2012-12-09T07:47:00+08:00</updated>
     <id>http://itsPG.github.com/blog/2012/12/09/google-apps</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>昨天收到通知，google apps即將停止提供免費服務，看著一開始要到的300人domain name，真的是不勝唏噓</p>
+
+<p>以下節錄自信件原文</p>
+
+<pre><code>Google 向您致敬，
+
+我们有一些关于 Google Apps 的重要消息要告诉您，但是不用担心，您无须执行任何操作。我们只是想让您知道，我们即将对提供的产品包进行更改。
+
+从今天起，我们不再接受 Google Apps 免费版本（即您当前正在使用的版本）的新帐户注册申请。由于您已经是我们的客户，因此这一更改不会对您的服务产生影响，您可以继续免费使用 Google Apps。
+</code></pre>
+
+<!-- more -->
+
+
+<p>第一個網域算是google app草創時期，當初只要填寫合理的使用人數跟理由，就可以拿到想要的人數</p>
+
+<p>我填了三百個</p>
+
+<p>第二個申請的時候，免費版固定人數是五十個帳戶</p>
+
+<p>第三個申請的時候，免費版只剩下十個人數</p>
+
+<p>昨天收到信，得知google apps已經不提供免費版帳戶，現在一個帳戶每個月要收五塊錢美金</p>
+
+<p>嗯，不勝唏噓&#8230; 在此緬懷一下一個優良服務的結束</p>
 ]]></content>
   </entry>
   
@@ -159,11 +207,13 @@ squash a~d test
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[piano guys]]></title>
+    <title type="html"><![CDATA[[音樂] piano guys]]></title>
     <link href="http://itsPG.github.com/blog/2012/12/09/piano-guys/"/>
     <updated>2012-12-09T07:45:00+08:00</updated>
     <id>http://itsPG.github.com/blog/2012/12/09/piano-guys</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>最近發現的一個我很喜歡的團體，如果有方便的購買管道的話我一定會買張實體專輯來聽聽看</p>
+
+<p><a href="http://www.youtube.com/user/ThePianoGuys">Piano Guys Offical Channel</a></p>
 ]]></content>
   </entry>
   
@@ -177,20 +227,43 @@ squash a~d test
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[taaze sell books]]></title>
+    <title type="html"><![CDATA[[閒聊] 在taaze銷售二手書籍]]></title>
     <link href="http://itsPG.github.com/blog/2012/12/09/taaze-sell-books/"/>
     <updated>2012-12-09T07:44:00+08:00</updated>
     <id>http://itsPG.github.com/blog/2012/12/09/taaze-sell-books</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>來推廣一下去<a href="http://www.taaze.tw/">taaze</a>賣二手書，雖然taaze本身會抽35%的佣金，不過只要把書本打包好寄給taaze，剩下的上架，找賣家，運送等等，taaze都會幫你打理妥當，算是清書櫃一個很無腦的解決方案</p>
+
+<!-- more -->
+
+
+<p>我個人已經是第二次找taaze賣書，只要累積到30本以上，taaze會吸收到府收送的郵資，我這兩次販售每次都是35本左右。</p>
+
+<p>值得注意的事項有幾點</p>
+
+<ul>
+<li><p>有一些書籍數量過高供過於求的時候，taaze會暫時拒絕上架，印象比較深刻的是幸運星，我賣1~5被打槍了兩三本左右</p></li>
+<li><p>上架時間一直都是個謎，我第一次上架taaze整理了一個多月，第二次約一個禮拜左右一口氣上架完畢</p></li>
+<li><p>如果是整套書籍的話，推薦找其他銷售管道會比較好，taaze要抽35%畢竟不是一筆小數目，整套書籍上ptt或者是上露天賣應該都是不錯的選擇</p></li>
+</ul>
+
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[bunny_charlotte]]></title>
+    <title type="html"><![CDATA[[開箱] 壽屋 夏綠蒂 兔女郎版本]]></title>
     <link href="http://itsPG.github.com/blog/2012/12/09/bunny-charlotte/"/>
     <updated>2012-12-09T07:42:00+08:00</updated>
     <id>http://itsPG.github.com/blog/2012/12/09/bunny-charlotte</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>不好意思我很懶的拍圖所以還是只有官網的圖片</p>
+
+<p>[][http://farm9.staticflickr.com/8379/8617872783_9693a14d1a_b.jpg]</p>
+
+<!-- more -->
+
+
+<p>這隻法國是我目前買過pvc裡面最滿意的一隻，毫無疑問的物超所值，</p>
+
+<p>大部分的PVC拿到實品都會跟官網上的圖有一點小落差，畢竟官網上為了銷售量著想，一定會盡量提昇照片的品質，但這隻我覺得官網上的圖並沒有處理的很漂亮，因此拿到實體的驚豔感更勝過官方圖片。</p>
 ]]></content>
   </entry>
   

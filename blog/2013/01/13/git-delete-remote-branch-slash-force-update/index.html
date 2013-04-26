@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>git delete remote branch / force update - itsPG.org</title>
+  <title>在git裡面取消commit / 強制pull到github / 刪除github branch - itsPG.org</title>
   <meta name="author" content="PG">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="最近這三個指令我使用的比率有點高所以來筆記一下用法 在git裡面取消commit 使用時機：不小心手殘commit兩次的時候 git reset HEAD@{1} 強制pull至github 使用時機：想要亂改遠端branch的時候 git push --force origin master &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Git Delete Remote Branch / Force Update</h1>
+      <h1 class="entry-title">在git裡面取消commit / 強制pull到github / 刪除github Branch</h1>
     
     
       <p class="meta">
@@ -103,7 +102,25 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>最近這三個指令我使用的比率有點高所以來筆記一下用法</p>
+
+<h2>在git裡面取消commit</h2>
+
+<p>使用時機：不小心手殘commit兩次的時候</p>
+
+<p><code>git reset HEAD@{1}</code></p>
+
+<h2>強制pull至github</h2>
+
+<p>使用時機：想要亂改遠端branch的時候</p>
+
+<p><code>git push --force origin master</code></p>
+
+<h2></h2>
+
+<p>使用時機：不想開網頁出來刪branch的時候</p>
+
+<p><code>git push origin --delete target_branch</code></p>
 </div>
 
 
@@ -129,6 +146,12 @@
 <time datetime="2013-01-13T17:50:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
 
     </p>
     
@@ -143,8 +166,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/01/13/git-memo/" title="Previous Post: git memo">&laquo; git memo</a>
+        <a class="basic-alignment left" href="/blog/2013/01/13/git-squash-master-commits/" title="Previous Post: 將github上的多筆commits合併成為一條commit">&laquo; 將github上的多筆commits合併成為一條commit</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2013/01/13/git-could-not-execute-editor/" title="Next Post: git錯誤訊息 could not execute editor">git錯誤訊息 could not execute editor &raquo;</a>
       
     </p>
   </footer>
@@ -165,11 +190,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/13/git-delete-remote-branch-slash-force-update/">git delete remote branch / force update</a>
+        <a href="/blog/2013/01/13/git-could-not-execute-editor/">git錯誤訊息 could not execute editor</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/01/13/git-memo/">git memo</a>
+        <a href="/blog/2013/01/13/git-delete-remote-branch-slash-force-update/">在git裡面取消commit / 強制pull到github / 刪除github branch</a>
       </li>
     
       <li class="post">
@@ -177,7 +202,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2012/12/09/google-apps/">google apps</a>
+        <a href="/blog/2012/12/09/google-apps/">[架站] google apps終止免費服務</a>
       </li>
     
       <li class="post">
@@ -189,7 +214,7 @@
 
 <section>
 <h1>分類</h1>
-<span class='categories_tag'> <a href='/blog/categories/acgn' style='font-size: 112.0%'>Acgn(1)</a>  <a href='/blog/categories/figure' style='font-size: 112.0%'>Figure(1)</a>  <a href='/blog/categories/freebsd' style='font-size: 124.0%'>Freebsd(2)</a>  <a href='/blog/categories/git' style='font-size: 136.0%'>Git(3)</a>  <a href='/blog/categories/kindle' style='font-size: 112.0%'>Kindle(1)</a>  <a href='/blog/categories/mac' style='font-size: 136.0%'>Mac(3)</a>  <a href='/blog/categories/octopress' style='font-size: 136.0%'>Octopress(3)</a>  <a href='/blog/categories/python' style='font-size: 136.0%'>Python(3)</a>  <a href='/blog/categories/root' style='font-size: 112.0%'>Root(1)</a>  <a href='/blog/categories/ruby' style='font-size: 112.0%'>Ruby(1)</a>  <a href='/blog/categories/webdesign' style='font-size: 112.0%'>Webdesign(1)</a>  <a href='/blog/categories/分享' style='font-size: 112.0%'>分享(1)</a>  <a href='/blog/categories/教學' style='font-size: 160.0%'>教學(5)</a>  <a href='/blog/categories/程式作品' style='font-size: 112.0%'>程式作品(1)</a>  <a href='/blog/categories/程設' style='font-size: 124.0%'>程設(2)</a>  <a href='/blog/categories/筆記' style='font-size: 112.0%'>筆記(1)</a>  <a href='/blog/categories/網管' style='font-size: 112.0%'>網管(1)</a>  <a href='/blog/categories/網管筆記' style='font-size: 112.0%'>網管筆記(1)</a>  <a href='/blog/categories/網管筆記-' style='font-size: 112.0%'>網管筆記,(1)</a>  <a href='/blog/categories/軟體' style='font-size: 112.0%'>軟體(1)</a>  <a href='/blog/categories/開箱' style='font-size: 160.0%'>開箱(5)</a>  <a href='/blog/categories/閒聊' style='font-size: 112.0%'>閒聊(1)</a>  <a href='/blog/categories/閒聊-軟體' style='font-size: 112.0%'>閒聊,軟體(1)</a>  <a href='/blog/categories/雪泥鴻爪' style='font-size: 112.0%'>雪泥鴻爪(1)</a> </span>
+<span class='categories_tag'> <a href='/blog/categories/acgn' style='font-size: 110.0%'>Acgn(1)</a>  <a href='/blog/categories/figure' style='font-size: 120.0%'>Figure(2)</a>  <a href='/blog/categories/freebsd' style='font-size: 120.0%'>Freebsd(2)</a>  <a href='/blog/categories/git' style='font-size: 150.0%'>Git(5)</a>  <a href='/blog/categories/kindle' style='font-size: 110.0%'>Kindle(1)</a>  <a href='/blog/categories/mac' style='font-size: 130.0%'>Mac(3)</a>  <a href='/blog/categories/octopress' style='font-size: 130.0%'>Octopress(3)</a>  <a href='/blog/categories/python' style='font-size: 130.0%'>Python(3)</a>  <a href='/blog/categories/root' style='font-size: 110.0%'>Root(1)</a>  <a href='/blog/categories/ruby' style='font-size: 110.0%'>Ruby(1)</a>  <a href='/blog/categories/webdesign' style='font-size: 110.0%'>Webdesign(1)</a>  <a href='/blog/categories/分享' style='font-size: 110.0%'>分享(1)</a>  <a href='/blog/categories/教學' style='font-size: 150.0%'>教學(5)</a>  <a href='/blog/categories/架站' style='font-size: 110.0%'>架站(1)</a>  <a href='/blog/categories/程式作品' style='font-size: 110.0%'>程式作品(1)</a>  <a href='/blog/categories/程設' style='font-size: 120.0%'>程設(2)</a>  <a href='/blog/categories/筆記' style='font-size: 110.0%'>筆記(1)</a>  <a href='/blog/categories/網管' style='font-size: 110.0%'>網管(1)</a>  <a href='/blog/categories/網管筆記' style='font-size: 110.0%'>網管筆記(1)</a>  <a href='/blog/categories/網管筆記-' style='font-size: 110.0%'>網管筆記,(1)</a>  <a href='/blog/categories/軟體' style='font-size: 110.0%'>軟體(1)</a>  <a href='/blog/categories/開箱' style='font-size: 160.0%'>開箱(6)</a>  <a href='/blog/categories/閒聊' style='font-size: 110.0%'>閒聊(1)</a>  <a href='/blog/categories/閒聊-軟體' style='font-size: 110.0%'>閒聊,軟體(1)</a>  <a href='/blog/categories/閒聊-閱讀' style='font-size: 110.0%'>閒聊,閱讀(1)</a>  <a href='/blog/categories/雪泥鴻爪' style='font-size: 110.0%'>雪泥鴻爪(1)</a>  <a href='/blog/categories/音樂' style='font-size: 110.0%'>音樂(1)</a> </span>
 </section>
 
 

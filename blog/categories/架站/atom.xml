@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 架站 | itsPG.org]]></title>
+  <link href="http://itsPG.github.com/blog/categories/架站/atom.xml" rel="self"/>
+  <link href="http://itsPG.github.com/"/>
+  <updated>2013-04-27T04:35:51+08:00</updated>
+  <id>http://itsPG.github.com/</id>
+  <author>
+    <name><![CDATA[PG]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[架站] google apps終止免費服務]]></title>
+    <link href="http://itsPG.github.com/blog/2012/12/09/google-apps/"/>
+    <updated>2012-12-09T07:47:00+08:00</updated>
+    <id>http://itsPG.github.com/blog/2012/12/09/google-apps</id>
+    <content type="html"><![CDATA[<p>昨天收到通知，google apps即將停止提供免費服務，看著一開始要到的300人domain name，真的是不勝唏噓</p>
+
+<p>以下節錄自信件原文</p>
+
+<pre><code>Google 向您致敬，
+
+我们有一些关于 Google Apps 的重要消息要告诉您，但是不用担心，您无须执行任何操作。我们只是想让您知道，我们即将对提供的产品包进行更改。
+
+从今天起，我们不再接受 Google Apps 免费版本（即您当前正在使用的版本）的新帐户注册申请。由于您已经是我们的客户，因此这一更改不会对您的服务产生影响，您可以继续免费使用 Google Apps。
+</code></pre>
+
+<!-- more -->
+
+
+<p>第一個網域算是google app草創時期，當初只要填寫合理的使用人數跟理由，就可以拿到想要的人數</p>
+
+<p>我填了三百個</p>
+
+<p>第二個申請的時候，免費版固定人數是五十個帳戶</p>
+
+<p>第三個申請的時候，免費版只剩下十個人數</p>
+
+<p>昨天收到信，得知google apps已經不提供免費版帳戶，現在一個帳戶每個月要收五塊錢美金</p>
+
+<p>嗯，不勝唏噓... 在此緬懷一下一個優良服務的結束</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>itsPG.org</title>
+  <title>git錯誤訊息 could not execute editor - itsPG.org</title>
   <meta name="author" content="PG">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://itsPG.github.com/">
+  <link rel="canonical" href="http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,15 +75,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/13/git-could-not-execute-editor/">Git錯誤訊息 Could Not Execute Editor</a></h1>
+      <h1 class="entry-title">Git錯誤訊息 Could Not Execute Editor</h1>
     
     
       <p class="meta">
@@ -106,7 +103,7 @@
   </header>
 
 
-  <div class="entry-content"><p>在git rebase的時候遇到了這樣的錯誤訊息</p>
+<div class="entry-content"><p>在git rebase的時候遇到了這樣的錯誤訊息</p>
 
 <p>Result: Could not execute editor</p>
 
@@ -114,76 +111,16 @@
 
 <p><code>git config --global core.editor "/usr/bin/vim"</code></p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/13/git-delete-remote-branch-slash-force-update/">在git裡面取消commit / 強制pull到github / 刪除github Branch</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">PG</span></span>
 
-<time datetime="2013-01-13T17:50:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近這三個指令我使用的比率有點高所以來筆記一下用法</p>
-
-<h2>在git裡面取消commit</h2>
-
-<p>使用時機：不小心手殘commit兩次的時候</p>
-
-<p><code>git reset HEAD@{1}</code></p>
-
-<h2>強制pull至github</h2>
-
-<p>使用時機：想要亂改遠端branch的時候</p>
-
-<p><code>git push --force origin master</code></p>
-
-<h2></h2>
-
-<p>使用時機：不想開網頁出來刪branch的時候</p>
-
-<p><code>git push origin --delete target_branch</code></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/13/git-squash-master-commits/">將github上的多筆commits合併成為一條commit</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -195,316 +132,44 @@
   
 
 
-<time datetime="2013-01-13T17:25:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>翻修github上的README.md的時候，每更改一次都是一條新的commit，多修改幾次之後master就拉出長長的一條線，感覺不是很必要，這邊教你怎樣將遠端多筆commits強制合併為一條</p>
-
-<p>這個範例目前僅限於要合併的commits位於尾端，至於要怎樣整合中間的commits這個我現在git還不夠熟，不敢亂測&#8230;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/13/git-squash-master-commits/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-01-13T20:53:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/google-apps/">[架站] Google Apps終止免費服務</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
 
 
-<time datetime="2012-12-09T07:47:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>昨天收到通知，google apps即將停止提供免費服務，看著一開始要到的300人domain name，真的是不勝唏噓</p>
-
-<p>以下節錄自信件原文</p>
-
-<pre><code>Google 向您致敬，
-
-我们有一些关于 Google Apps 的重要消息要告诉您，但是不用担心，您无须执行任何操作。我们只是想让您知道，我们即将对提供的产品包进行更改。
-
-从今天起，我们不再接受 Google Apps 免费版本（即您当前正在使用的版本）的新帐户注册申请。由于您已经是我们的客户，因此这一更改不会对您的服务产生影响，您可以继续免费使用 Google Apps。
-</code></pre>
-
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/" data-via="" data-counturl="http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/09/google-apps/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/x10/">X10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:46:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2013/01/13/git-delete-remote-branch-slash-force-update/" title="Previous Post: 在git裡面取消commit / 強制pull到github / 刪除github branch">&laquo; 在git裡面取消commit / 強制pull到github / 刪除github branch</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/github-for-edu/">Github for Edu</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:46:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/piano-guys/">[音樂] Piano Guys</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:45:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近發現的一個我很喜歡的團體，如果有方便的購買管道的話我一定會買張實體專輯來聽聽看</p>
-
-<p><a href="http://www.youtube.com/user/ThePianoGuys">Piano Guys Offical Channel</a></p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/books-vs-iread/">Books vs Iread</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:45:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/taaze-sell-books/">[閒聊] 在taaze銷售二手書籍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:44:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>來推廣一下去<a href="http://www.taaze.tw/">taaze</a>賣二手書，雖然taaze本身會抽35%的佣金，不過只要把書本打包好寄給taaze，剩下的上架，找賣家，運送等等，taaze都會幫你打理妥當，算是清書櫃一個很無腦的解決方案</p>
+  </section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/09/taaze-sell-books/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/09/bunny-charlotte/">[開箱] 壽屋 夏綠蒂 兔女郎版本</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T07:42:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>不好意思我很懶的拍圖所以還是只有官網的圖片</p>
-
-<p>[][http://farm9.staticflickr.com/8379/8617872783_9693a14d1a_b.jpg]</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/09/bunny-charlotte/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -548,6 +213,7 @@
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -562,7 +228,10 @@
       var disqus_shortname = 'itspgitspg';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/';
+        var disqus_url = 'http://itsPG.github.com/blog/2013/01/13/git-could-not-execute-editor/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
